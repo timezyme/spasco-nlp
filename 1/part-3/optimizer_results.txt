@@ -1,0 +1,105 @@
+TOP 5 OPTIMIZER EXPERIMENTS RESULTS
+================================================================================
+Date: 2025-09-13 18:29:43
+Model: Reuters Text Classification (46 classes)
+Architecture: 256->128->64 units with BatchNorm and Dropout
+Training samples: 7982, Validation: 1000, Test: 2246
+================================================================================
+
+SUMMARY TABLE - BEST CONFIGURATION PER OPTIMIZER
+--------------------------------------------------------------------------------
+Optimizer    Best Hyperparameters                Best Val Acc Best Epoch Test Acc  
+--------------------------------------------------------------------------------
+RMSprop      lr=0.001                            0.8280       20         0.8019    
+Adam         lr=0.001                            0.8270       22         0.7974    
+Adamax       lr=0.002                            0.8270       26         0.8054    
+AdamW        lr=0.001, wd=0.001                  0.8250       24         0.7996    
+Nadam        lr=0.001                            0.8220       24         0.7979    
+
+
+DETAILED RESULTS - ALL EXPERIMENTS
+--------------------------------------------------------------------------------
+
+Optimizer: RMSprop
+Hyperparameters: lr=0.001
+Best Validation Accuracy: 0.8280 at epoch 20
+Test Accuracy: 0.8019
+----------------------------------------
+
+Optimizer: Adam
+Hyperparameters: lr=0.001
+Best Validation Accuracy: 0.8270 at epoch 22
+Test Accuracy: 0.7974
+----------------------------------------
+
+Optimizer: Adam
+Hyperparameters: lr=0.01
+Best Validation Accuracy: 0.8270 at epoch 23
+Test Accuracy: 0.7988
+----------------------------------------
+
+Optimizer: Adam
+Hyperparameters: lr=0.001, β1=0.9, β2=0.999
+Best Validation Accuracy: 0.8270 at epoch 22
+Test Accuracy: 0.7974
+----------------------------------------
+
+Optimizer: Adamax
+Hyperparameters: lr=0.002
+Best Validation Accuracy: 0.8270 at epoch 26
+Test Accuracy: 0.8054
+----------------------------------------
+
+Optimizer: AdamW
+Hyperparameters: lr=0.001, wd=0.001
+Best Validation Accuracy: 0.8250 at epoch 24
+Test Accuracy: 0.7996
+----------------------------------------
+
+Optimizer: AdamW
+Hyperparameters: lr=0.001, wd=0.01
+Best Validation Accuracy: 0.8230 at epoch 20
+Test Accuracy: 0.8010
+----------------------------------------
+
+Optimizer: RMSprop
+Hyperparameters: lr=0.001, rho=0.95
+Best Validation Accuracy: 0.8220 at epoch 14
+Test Accuracy: 0.8054
+----------------------------------------
+
+Optimizer: Nadam
+Hyperparameters: lr=0.001
+Best Validation Accuracy: 0.8220 at epoch 24
+Test Accuracy: 0.7979
+----------------------------------------
+
+Optimizer: RMSprop
+Hyperparameters: lr=0.01, rho=0.9
+Best Validation Accuracy: 0.8210 at epoch 13
+Test Accuracy: 0.7916
+----------------------------------------
+
+Optimizer: Nadam
+Hyperparameters: lr=0.002
+Best Validation Accuracy: 0.8210 at epoch 10
+Test Accuracy: 0.8059
+----------------------------------------
+
+Optimizer: RMSprop
+Hyperparameters: lr=0.0001
+Best Validation Accuracy: 0.7870 at epoch 27
+Test Accuracy: 0.7609
+----------------------------------------
+
+Optimizer: Adam
+Hyperparameters: lr=0.0001
+Best Validation Accuracy: 0.7870 at epoch 30
+Test Accuracy: 0.7600
+----------------------------------------
+
+Optimizer: AdamW
+Hyperparameters: lr=0.0001, wd=0.01
+Best Validation Accuracy: 0.7870 at epoch 27
+Test Accuracy: 0.7591
+----------------------------------------
