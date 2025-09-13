@@ -1,0 +1,25 @@
+PART 1B - TEST ACCURACY RESULTS
+================================
+
+Configuration:
+  Random Seed: 42
+  Dataset: Reuters (46 classes)
+  Vocabulary Size: 10,000 words
+  Training Set Size: 7982 samples
+  Validation Set Size: 1000 samples
+  Test Set Size: 2246 samples
+
+Model Selection:
+  Selection Criterion: Maximum Validation Accuracy
+  Optimal Epochs: 20
+  Validation Accuracy at Optimal Epoch: 0.8130
+  Validation Loss at Optimal Epoch: 0.8789
+  Minimum Validation Loss Epoch: 20 (loss: 0.8789)
+
+Test Set Performance:
+  TEST ACCURACY: 0.7961 (79.61%)
+  TEST LOSS: 0.9826
+
+Comparison:
+  Random Baseline: 0.1950 (19.50%)
+  Improvement over Baseline: 60.11 percentage points

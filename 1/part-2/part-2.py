@@ -434,11 +434,15 @@ def main():
     
     # Train model for 20 epochs
     print("\n3. Training model to identify optimal epochs...")
-    classifier.train(epochs=20, batch_size=512)
+    classifier.train(epochs=20, batch_size=256)
     
     # Plot training history
     print("\n4. Plotting training history...")
-    classifier.plot_training_history(save_path='reuters_training_history.png')
+    import os
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    plot_path = os.path.join(script_dir, 'results-plot.png')
+    classifier.plot_training_history(save_path=plot_path)
+    print(f"Plot saved to: {plot_path}")
     
     # Get random baseline for comparison
     print("\n5. Computing random baseline...")
@@ -446,10 +450,11 @@ def main():
     
     # Retrain with optimal epochs
     print("\n6. Retraining with optimal number of epochs...")
-    test_accuracy, test_loss = classifier.retrain_with_optimal_epochs(batch_size=512)
+    test_accuracy, test_loss = classifier.retrain_with_optimal_epochs(batch_size=256)
     
     # Save Part 1b results to file
-    with open('part1b_results.txt', 'w') as f:
+    results_path = os.path.join(script_dir, 'part1b_results.txt')
+    with open(results_path, 'w') as f:
         f.write("PART 1B - TEST ACCURACY RESULTS\n")
         f.write("================================\n\n")
         f.write("Configuration:\n")
@@ -492,11 +497,14 @@ def main():
         f.write(f"  Random Baseline: {baseline:.4f} ({baseline*100:.2f}%)\n")
         f.write(f"  Improvement over Baseline: {(test_accuracy - baseline)*100:.2f} percentage points\n")
     
+    print(f"Results saved to: {results_path}")
+    
     print("\n" + "=" * 60)
     print("Training Complete!")
     print(f"Optimal epochs identified: {classifier.optimal_epochs}")
     print(f"Final test accuracy: {test_accuracy:.4f}")
-    print(f"✓ Part 1b results saved to part1b_results.txt")
+    print(f"✓ Part 1b results saved to: {results_path}")
+    print(f"✓ Training plot saved to: {plot_path}")
     print("=" * 60)
 
 
