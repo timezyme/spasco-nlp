@@ -282,7 +282,7 @@ class ReutersTextClassifier:
             batch_size: Batch size for training (default: 512)
             
         Returns:
-            Test accuracy after training with optimal epochs
+            Tuple of (test_accuracy, test_loss) after training with optimal epochs
         """
         if self.optimal_epochs is None:
             raise ValueError("Optimal epochs not determined. Run train() first.")
@@ -311,7 +311,7 @@ class ReutersTextClassifier:
             print(f"  Test Loss: {test_loss:.4f}")
             print(f"  Test Accuracy: {test_acc:.4f}")
         
-        return test_acc
+        return test_acc, test_loss
     
     def get_random_baseline(self):
         """
@@ -371,12 +371,57 @@ def main():
     
     # Retrain with optimal epochs
     print("\n6. Retraining with optimal number of epochs...")
-    test_accuracy = classifier.retrain_with_optimal_epochs(batch_size=512)
+    test_accuracy, test_loss = classifier.retrain_with_optimal_epochs(batch_size=512)
+    
+    # Save Part 1b results to file
+    with open('part1b_results.txt', 'w') as f:
+        f.write("PART 1B - TEST ACCURACY RESULTS\n")
+        f.write("================================\n\n")
+        f.write("Configuration:\n")
+        f.write(f"  Random Seed: 42\n")
+        f.write(f"  Dataset: Reuters (46 classes)\n")
+        f.write(f"  Vocabulary Size: 10,000 words\n")
+        f.write(f"  Training Set Size: {len(classifier.x_train)} samples\n")
+        f.write(f"  Validation Set Size: {len(classifier.x_val)} samples\n")
+        f.write(f"  Test Set Size: {len(classifier.x_test)} samples\n\n")
+        
+        f.write("Model Selection:\n")
+        f.write(f"  Selection Criterion: Maximum Validation Accuracy\n")
+        f.write(f"  Optimal Epochs: {classifier.optimal_epochs}\n")
+        
+        # Get validation accuracy and loss at optimal epoch
+        if 'val_accuracy' in classifier.history.history:
+            val_acc_optimal = classifier.history.history['val_accuracy'][classifier.optimal_epochs - 1]
+            val_loss_optimal = classifier.history.history['val_loss'][classifier.optimal_epochs - 1]
+            val_losses = classifier.history.history['val_loss']
+        else:
+            val_acc_optimal = classifier.history.history['val_acc'][classifier.optimal_epochs - 1]
+            val_loss_optimal = classifier.history.history['val_loss'][classifier.optimal_epochs - 1]
+            val_losses = classifier.history.history['val_loss']
+        
+        # Find epoch with minimum validation loss
+        min_val_loss_epoch = np.argmin(val_losses) + 1
+        min_val_loss = min(val_losses)
+        
+        f.write(f"  Validation Accuracy at Optimal Epoch: {val_acc_optimal:.4f}\n")
+        f.write(f"  Validation Loss at Optimal Epoch: {val_loss_optimal:.4f}\n")
+        f.write(f"  Minimum Validation Loss Epoch: {min_val_loss_epoch} (loss: {min_val_loss:.4f})\n\n")
+        
+        f.write("Test Set Performance:\n")
+        f.write(f"  TEST ACCURACY: {test_accuracy:.4f} ({test_accuracy*100:.2f}%)\n")
+        f.write(f"  TEST LOSS: {test_loss:.4f}\n\n")
+        
+        # Get baseline accuracy
+        baseline = classifier.get_random_baseline()
+        f.write("Comparison:\n")
+        f.write(f"  Random Baseline: {baseline:.4f} ({baseline*100:.2f}%)\n")
+        f.write(f"  Improvement over Baseline: {(test_accuracy - baseline)*100:.2f} percentage points\n")
     
     print("\n" + "=" * 60)
     print("Training Complete!")
     print(f"Optimal epochs identified: {classifier.optimal_epochs}")
     print(f"Final test accuracy: {test_accuracy:.4f}")
+    print(f"✓ Part 1b results saved to part1b_results.txt")
     print("=" * 60)
 
 
