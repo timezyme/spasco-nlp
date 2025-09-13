@@ -6,10 +6,11 @@ Based on Deep Learning with Python by Francois Chollet
 
 import numpy as np
 import matplotlib.pyplot as plt
-from keras import models, layers
+from keras import models, layers, regularizers
 from keras.datasets import reuters
 from keras.utils import to_categorical
-from keras.callbacks import EarlyStopping
+from keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
+from keras.optimizers import Adam
 import keras
 
 
@@ -96,47 +97,91 @@ class ReutersTextClassifier:
             results[i, sequence] = 1.
         return results
     
-    def build_model(self, use_regularization=False):
+    def build_model(self, use_regularization=True, architecture='improved'):
         """
         Build the neural network architecture.
-        Architecture: Input(10000) -> Dense(64, relu) -> Dense(64, relu) -> Dense(46, softmax)
         
         Args:
-            use_regularization: Whether to add L2 regularization (default: False)
+            use_regularization: Whether to add regularization (default: True)
+            architecture: Model architecture type ('original', 'improved', 'deep')
         """
         self.model = models.Sequential()
         
-        if use_regularization:
-            self.model.add(layers.Dense(64, activation='relu', input_shape=(self.num_words,),
-                                       kernel_regularizer=layers.regularizers.l2(0.001)))
+        if architecture == 'improved':
+            # Improved architecture with better capacity and regularization
+            self.model.add(layers.Dense(256, input_shape=(self.num_words,)))
+            self.model.add(layers.BatchNormalization())
+            self.model.add(layers.Activation('relu'))
+            self.model.add(layers.Dropout(0.4))
+            
+            self.model.add(layers.Dense(128))
+            self.model.add(layers.BatchNormalization())
+            self.model.add(layers.Activation('relu'))
+            self.model.add(layers.Dropout(0.3))
+            
+            self.model.add(layers.Dense(64))
+            self.model.add(layers.BatchNormalization())
+            self.model.add(layers.Activation('relu'))
+            self.model.add(layers.Dropout(0.2))
+            
+        elif architecture == 'deep':
+            # Deeper architecture for complex patterns
+            self.model.add(layers.Dense(512, input_shape=(self.num_words,)))
+            self.model.add(layers.BatchNormalization())
+            self.model.add(layers.Activation('relu'))
             self.model.add(layers.Dropout(0.5))
-            self.model.add(layers.Dense(64, activation='relu',
-                                       kernel_regularizer=layers.regularizers.l2(0.001)))
-            self.model.add(layers.Dropout(0.5))
-        else:
-            self.model.add(layers.Dense(64, activation='relu', input_shape=(self.num_words,)))
-            self.model.add(layers.Dense(64, activation='relu'))
+            
+            self.model.add(layers.Dense(256))
+            self.model.add(layers.BatchNormalization())
+            self.model.add(layers.Activation('relu'))
+            self.model.add(layers.Dropout(0.4))
+            
+            self.model.add(layers.Dense(128))
+            self.model.add(layers.BatchNormalization())
+            self.model.add(layers.Activation('relu'))
+            self.model.add(layers.Dropout(0.3))
+            
+            self.model.add(layers.Dense(64))
+            self.model.add(layers.BatchNormalization())
+            self.model.add(layers.Activation('relu'))
+            self.model.add(layers.Dropout(0.2))
+            
+        else:  # original
+            if use_regularization:
+                self.model.add(layers.Dense(64, activation='relu', input_shape=(self.num_words,),
+                                           kernel_regularizer=regularizers.l2(0.001)))
+                self.model.add(layers.Dropout(0.5))
+                self.model.add(layers.Dense(64, activation='relu',
+                                           kernel_regularizer=regularizers.l2(0.001)))
+                self.model.add(layers.Dropout(0.5))
+            else:
+                self.model.add(layers.Dense(64, activation='relu', input_shape=(self.num_words,)))
+                self.model.add(layers.Dense(64, activation='relu'))
         
         self.model.add(layers.Dense(self.num_classes, activation='softmax'))
         
+        # Use Adam optimizer with learning rate scheduling
+        optimizer = Adam(learning_rate=0.001)
+        
         self.model.compile(
-            optimizer='rmsprop',
+            optimizer=optimizer,
             loss='categorical_crossentropy',
             metrics=['accuracy']
         )
         
         if self.verbose >= 1:
-            print("Model architecture built:")
+            print(f"Model architecture built: {architecture}")
             self.model.summary()
         
-    def train(self, epochs=20, batch_size=512, use_early_stopping=False):
+    def train(self, epochs=30, batch_size=256, use_early_stopping=True, use_lr_reduction=True):
         """
         Train the model and identify the optimal number of epochs.
         
         Args:
-            epochs: Maximum number of epochs to train (default: 20)
-            batch_size: Batch size for training (default: 512)
-            use_early_stopping: Whether to use early stopping (default: False)
+            epochs: Maximum number of epochs to train (default: 30)
+            batch_size: Batch size for training (default: 256)
+            use_early_stopping: Whether to use early stopping (default: True)
+            use_lr_reduction: Whether to use learning rate reduction (default: True)
             
         Returns:
             History object containing training metrics
@@ -148,17 +193,39 @@ class ReutersTextClassifier:
             raise ValueError("Data not loaded. Call load_and_prepare_data() first.")
         
         if self.verbose >= 1:
-            print(f"\nTraining model for {epochs} epochs...")
+            print(f"\nTraining model for up to {epochs} epochs...")
         
         callbacks = []
+        
         if use_early_stopping:
             early_stopping = EarlyStopping(
-                monitor='val_loss',
-                patience=3,
+                monitor='val_accuracy',
+                patience=5,
                 restore_best_weights=True,
-                verbose=self.verbose
+                verbose=self.verbose,
+                mode='max'
             )
             callbacks.append(early_stopping)
+        
+        if use_lr_reduction:
+            lr_reduction = ReduceLROnPlateau(
+                monitor='val_loss',
+                patience=3,
+                verbose=self.verbose,
+                factor=0.5,
+                min_lr=0.00001
+            )
+            callbacks.append(lr_reduction)
+        
+        # Add model checkpoint to save best model
+        checkpoint = ModelCheckpoint(
+            'best_model_weights.h5',
+            monitor='val_accuracy',
+            save_best_only=True,
+            mode='max',
+            verbose=0
+        )
+        callbacks.append(checkpoint)
         
         self.history = self.model.fit(
             self.x_train,
@@ -166,9 +233,17 @@ class ReutersTextClassifier:
             epochs=epochs,
             batch_size=batch_size,
             validation_data=(self.x_val, self.y_val),
-            callbacks=callbacks if callbacks else None,
+            callbacks=callbacks,
             verbose=self.verbose
         )
+        
+        # Load best weights
+        try:
+            self.model.load_weights('best_model_weights.h5')
+            if self.verbose >= 1:
+                print("\nLoaded best model weights from checkpoint")
+        except:
+            pass
         
         # Identify optimal epochs based on validation accuracy
         self._identify_optimal_epochs()
@@ -197,7 +272,7 @@ class ReutersTextClassifier:
             if self.optimal_epochs < len(val_acc):
                 print(f"Note: Model starts overfitting after epoch {self.optimal_epochs}")
             
-    def plot_training_history(self, save_path=None, show=True):
+    def plot_training_history(self, save_path=None, show=True, title_suffix=''):
         """
         Plot training and validation accuracy versus number of epochs.
         
@@ -259,7 +334,7 @@ class ReutersTextClassifier:
         ax2.legend()
         ax2.grid(True, alpha=0.3)
         
-        plt.suptitle('Reuters Text Classification - Training History', fontsize=14)
+        plt.suptitle(f'Reuters Text Classification - Training History{title_suffix}', fontsize=14)
         fig.tight_layout(rect=[0, 0, 1, 0.95])  # Adjust layout to accommodate suptitle
         
         if save_path:
@@ -274,7 +349,7 @@ class ReutersTextClassifier:
             
         return fig
         
-    def retrain_with_optimal_epochs(self, batch_size=512):
+    def retrain_with_optimal_epochs(self, batch_size=256, architecture='improved'):
         """
         Retrain the model from scratch using the optimal number of epochs.
         
@@ -290,8 +365,8 @@ class ReutersTextClassifier:
         if self.verbose >= 1:
             print(f"\nRetraining model with optimal epochs: {self.optimal_epochs}")
         
-        # Rebuild the model
-        self.build_model()
+        # Rebuild the model with improved architecture
+        self.build_model(use_regularization=True, architecture=architecture)
         
         # Train with optimal epochs
         self.model.fit(
