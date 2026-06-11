@@ -11,6 +11,11 @@ build/
 dist/
 *.egg-info/
 
+# Model artifacts (results go to *_output.txt, never saved models)
+*.h5
+*.weights.h5
+*.keras
+
 # macOS / Windows
 .DS_Store
 Thumbs.db
