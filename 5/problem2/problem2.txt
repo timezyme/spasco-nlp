@@ -1,0 +1,21 @@
+Please load the MNIST dataset of handwritten digits as follows:
+
+from keras.datasets import mnist
+import numpy as np
+(X_train, y_train), (X_test, y_test) = mnist.load_data()
+
+Build an undercomplete autoencoder of your choice using X_train/255 (i.e., you need to scale the inputs/outputs). Try to make the number of codings as small as possible while ensuring that the reconstructed digits are still recognizable. Plot the train/validation loss. Show 5 randomly selected test images (i.e., from X_test/255) along with their corresponding reconstructions. What is the smallest number of codings you had to use to achieve these results?
+
+What You Need to Do
+
+In short, the problem asks you to:
+
+    Load the MNIST data and scale the pixel values to be between 0 and 1.
+
+    Build an autoencoder model where the central layer is very small.
+
+    Train the model to minimize the reconstruction error.
+
+    Evaluate your model by feeding it test images and showing the original next to the reconstructed version. 
+
+    Experiment to find the smallest number for the bottleneck layer (the "number of codings") that still produces images you can recognize.

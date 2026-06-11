@@ -1,0 +1,3 @@
+What NLP techniques would you use to "Classify Academic Papers into Specific Domains"? Research the latest NLP techniques one could use to Classify Academic Papers into Specific Domains. Your research should be based on current / modern NLP techniques used over the last two years. Only provide the top five techniques that a single person with some NLP knowledge could implement AND would not be expensive (cost a lot) OR require extensive compute resources AND should NOT take longer than two weeks to develop.
+
+Keep in mind, this solution should work for ALL types of academic papers from different domains (e.g. computer science, medicine, math, physics, social science, etc.)

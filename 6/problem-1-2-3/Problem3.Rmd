@@ -1,0 +1,263 @@
+---
+title: "Problem 3: Topic Modeling with LDA in R"
+author: "Stephen Pasco"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cosmo
+    highlight: tango
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 10,
+  fig.height = 6
+)
+```
+
+# Overview
+
+This notebook implements LDA topic modeling using R, replicating the analysis from Problem 1 but using R's `topicmodels` package instead of Python's Gensim.
+
+**Objective:** Extract topics from an academic article about network-knowledge graph duality in supply chain risk analysis.
+
+---
+
+# (a) Data Loading and Preparation
+
+## Install and Load Required Packages
+
+```{r load-packages}
+# Install required packages if not already installed
+required_packages <- c("tm", "topicmodels", "SnowballC", "jsonlite", "knitr")
+
+for (pkg in required_packages) {
+  if (!require(pkg, character.only = TRUE, quietly = TRUE)) {
+    cat(sprintf("Installing package: %s\n", pkg))
+    install.packages(pkg, repos = "https://cloud.r-project.org/", quiet = TRUE)
+    library(pkg, character.only = TRUE)
+  }
+}
+```
+
+## Load Article Data
+
+```{r load-data}
+# Load article data from JSON
+article_data <- fromJSON("article-sections.json")
+
+cat(sprintf("Article: 'Network-Knowledge Graph Duality in Supply Chain Risk Analysis'\n"))
+cat(sprintf("Total sections (documents): %d\n", nrow(article_data)))
+cat(sprintf("Number of topics to extract: 6 (same as Problem 1)\n"))
+```
+
+## Extract Documents
+
+```{r extract-documents}
+# Extract document content
+documents <- article_data$content
+section_headers <- article_data$section
+
+# Show sample of first few sections
+kable(
+  data.frame(
+    Section = section_headers[1:5],
+    Preview = substr(documents[1:5], 1, 100)
+  ),
+  caption = "Sample of First 5 Document Sections"
+)
+```
+
+---
+
+# (b) Text Preprocessing
+
+```{r preprocessing}
+library(tm)
+library(SnowballC)
+
+cat("Preprocessing steps:\n")
+cat("  - Convert to lowercase\n")
+cat("  - Remove numbers and punctuation\n")
+cat("  - Remove English stopwords\n")
+cat("  - Apply stemming\n")
+cat("  - Filter words with length < 3\n\n")
+
+# Create corpus
+corpus <- Corpus(VectorSource(documents))
+
+# Create document-term matrix with preprocessing controls
+dtm <- DocumentTermMatrix(corpus, control = list(
+  tolower = TRUE,
+  removeNumbers = TRUE,
+  removePunctuation = TRUE,
+  stopwords = stopwords("english"),
+  stemming = TRUE,
+  wordLengths = c(3, Inf)
+))
+
+cat(sprintf("Initial DTM: %d documents x %d terms\n", nrow(dtm), ncol(dtm)))
+```
+
+## Filter Sparse Terms
+
+```{r filter-sparse}
+# Remove sparse terms (similar to Problem 1's filtering)
+dtm_filtered <- removeSparseTerms(dtm, 0.7)
+
+# Remove empty documents (rows with all zeros)
+row_sums <- rowSums(as.matrix(dtm_filtered))
+dtm_filtered <- dtm_filtered[row_sums > 0, ]
+documents_filtered <- documents[row_sums > 0]
+section_headers_filtered <- section_headers[row_sums > 0]
+
+cat(sprintf("Filtered DTM: %d documents x %d terms\n", nrow(dtm_filtered), ncol(dtm_filtered)))
+cat(sprintf("Documents retained after filtering: %d\n", nrow(dtm_filtered)))
+```
+
+---
+
+# (c) LDA Model Training
+
+```{r train-lda}
+library(topicmodels)
+set.seed(42)  # For reproducibility
+
+cat("Training LDA model with 6 topics...\n")
+lda_model <- LDA(
+  dtm_filtered,
+  k = 6,
+  method = "VEM",
+  control = list(
+    seed = 42,
+    estimate.alpha = TRUE,
+    verbose = 0
+  )
+)
+cat("Model trained successfully.\n")
+```
+
+---
+
+# (d) Results Presentation
+
+```{r helper-function}
+# Helper function to generate topic labels
+get_topic_label <- function(top_words) {
+  word_str <- paste(tolower(top_words[1:7]), collapse = " ")
+
+  if (grepl("agent|triage|tool|call|user|queri", word_str)) {
+    return("Agent Systems")
+  } else if (grepl("node|edg|path|central|travers", word_str)) {
+    return("Network Paths")
+  } else if (grepl("factor|portfolio|secur|stock|shell", word_str)) {
+    return("Financial Analysis")
+  } else if (grepl("suppli|chain|coltan|appl|drc", word_str)) {
+    return("Supply Chain")
+  } else if (grepl("model|time|domain|hop|summari", word_str)) {
+    return("Graph Traversal")
+  } else if (grepl("graph|network|llm|retriev", word_str)) {
+    if (grepl("llm|languag", word_str)) {
+      return("LLM Applications")
+    } else {
+      return("Knowledge Graphs")
+    }
+  } else {
+    return(paste(tools::toTitleCase(top_words[1:2]), collapse = " "))
+  }
+}
+```
+
+```{r extract-results}
+# Get top terms and document-topic distributions
+top_terms <- terms(lda_model, 10)
+doc_topics <- posterior(lda_model)$topics
+topic_term_probs <- posterior(lda_model)$terms
+```
+
+## Topic Analysis
+
+```{r topics-display, results='asis'}
+# Display results for each topic
+for (topic_id in 1:6) {
+  cat(sprintf("\n## Topic %d\n\n", topic_id - 1))  # 0-indexed to match Problem 1
+
+  # Top 10 words
+  cat("### Top 10 Most Frequent Words\n\n")
+  topic_words <- top_terms[, topic_id]
+
+  word_table <- data.frame(
+    Rank = 1:10,
+    Word = character(10),
+    Probability = numeric(10),
+    stringsAsFactors = FALSE
+  )
+
+  for (rank in 1:10) {
+    word <- topic_words[rank]
+    word_idx <- which(colnames(topic_term_probs) == word)
+    if (length(word_idx) > 0) {
+      prob <- topic_term_probs[topic_id, word_idx]
+      word_table$Word[rank] <- word
+      word_table$Probability[rank] <- prob
+    }
+  }
+
+  print(kable(word_table, digits = 4))
+
+  # Topic label
+  label <- get_topic_label(topic_words)
+  cat(sprintf("\n**Topic Label:** %s\n\n", label))
+
+  # Top 2 most associated documents
+  topic_scores <- doc_topics[, topic_id]
+  top_doc_indices <- order(topic_scores, decreasing = TRUE)[1:2]
+
+  cat("### Top 2 Most Associated Documents\n\n")
+  for (rank in 1:2) {
+    doc_idx <- top_doc_indices[rank]
+    score <- topic_scores[doc_idx]
+    header <- section_headers_filtered[doc_idx]
+    content <- documents_filtered[doc_idx]
+    preview <- if (nchar(content) > 150) {
+      paste0(substr(content, 1, 150), "...")
+    } else {
+      content
+    }
+
+    cat(sprintf("**Document %d** (Association Score: %.4f)\n\n", rank, score))
+    cat(sprintf("- **Section:** %s\n", header))
+    cat(sprintf("- **Preview:** %s\n\n", preview))
+  }
+
+  cat("\n---\n\n")
+}
+```
+
+---
+
+# Conclusion
+
+This R implementation of LDA topic modeling successfully extracted 6 topics from the academic article about network-knowledge graph duality in supply chain risk analysis.
+
+**Note:** Topics derived in R may differ from those in Problem 1 due to:
+
+- Differences in library implementations (R's `topicmodels` vs Python's Gensim)
+- Preprocessing differences (stemming vs lemmatization)
+- Random initialization and optimization algorithms
+
+Both implementations follow the same conceptual approach but may produce different topic distributions due to these technical variations.
+
+---
+
+# Session Information
+
+```{r session-info}
+sessionInfo()
+```

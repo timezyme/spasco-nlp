@@ -1,0 +1,30 @@
+Please load the IMDb dataset of movie reviews using Keras. 
+
+Start by setting a maximum of 10,000 words to be considered in your vocabulary and focus on the first 200 words of each review for processing. 
+
+Use the following code to load and prepare your data:
+```
+from keras.datasets import imdb
+from keras.preprocessing import sequence
+
+max_features = 10000  # Top 10,000 words
+maxlen = 200  # First 200 words of each review
+
+(X_train, y_train), (X_test, y_test) = imdb.load_data(num_words=max_features)
+X_train = sequence.pad_sequences(X_train, maxlen=maxlen)
+X_test = sequence.pad_sequences(X_test, maxlen=maxlen)
+```
+
+[1]Your task is to build an undercomplete autoencoder using X_train that projects these movie review sequences into a lower-dimensional space and reconstructs them.
+
+[2a]Focus on learning a compact representation of the data that retains its semantic integrity. 
+
+[2b]Experiment with the number of codings to achieve a balance where the reconstructed reviews are still conceptually meaningful despite dimensionality reduction.
+
+[3]Plot the training and validation loss trends to monitor the model's performance over time. 
+
+[4]Select five random samples from the test set and demonstrate the effectiveness of your autoencoder by depicting both the original and reconstructed versions. 
+
+[5]For better understanding, convert the numerical indices back to textual data using the IMDb word index to visualize how well the model has learned to encode and decode text. 
+
+[6]What is the smallest number of codings you had to use to get these results?

@@ -1,0 +1,44 @@
+============================================================
+RNN Temperature Prediction Results - GRU Model
+============================================================
+
+Model Performance:
+----------------------------------------
+RNN (GRU) Test MSE: 0.027524
+Persistent Forecast Test MSE: 0.034144
+Improvement over baseline: 19.39%
+
+ SUCCESS: The GRU model outperforms the persistent forecast!
+
+Training Intuition and Insights:
+----------------------------------------
+1. ARCHITECTURE CHOICE:
+   - GRU (50 units) provides sufficient capacity for temperature patterns
+   - Simpler than LSTM, faster training, fewer parameters (8,001 total)
+   - Single layer is adequate for this smooth time series
+
+2. LOOKBACK WINDOW (60 timesteps = 10 hours):
+   - Captures diurnal temperature cycles effectively
+   - 10 hours provides enough context for one-step prediction
+   - Balances memory requirements with temporal context
+
+3. TRAINING STRATEGY:
+   - 4 epochs optimal: avoids overfitting while achieving convergence
+   - Batch size 64: good balance between gradient stability and speed
+   - 80/20 validation split ensures generalization monitoring
+
+4. DATA PREPROCESSING:
+   - MinMaxScaler normalization crucial for GRU gradient flow
+   - Scaling to [0,1] prevents vanishing gradients
+   - Fit scaler only on training data prevents data leakage
+
+5. KEY SUCCESS FACTORS:
+   - Temperature is relatively smooth and predictable
+   - Strong autocorrelation makes RNN superior to persistence
+   - GRU gates effectively capture temperature momentum
+   - 19.4% improvement shows RNN learns beyond naive copying
+
+6. COMPUTATIONAL EFFICIENCY:
+   - Training completes in ~3 minutes on standard hardware
+   - GRU faster than LSTM with comparable performance
+   - Model size only 31.25 KB - highly deployable

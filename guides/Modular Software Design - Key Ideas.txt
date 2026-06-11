@@ -1,0 +1,84 @@
+# Modular Software Design - Key Ideas
+
+## 🧱 Foundational Engineering Principles
+
+* High cohesion + low coupling + information hiding = modular maintainability, parallelism, and testability.
+* Modular architecture is not optional—it’s what makes composability, isolation, and LLM-driven workflows *possible*.
+* Every module must expose the minimum public surface; internal logic should change freely without ripple effects.
+* Context-isolated layering (closed layers > open layers) preserves maintainability by halting cross-layer ripple-changes.
+* Microservices ≠ magic. Their real value is independent deployability + bounded business contexts + isolated data ownership.
+
+## 🔄 Modular Decomposition Tactics
+
+* Start modularity **by feature**, not layer. Create vertical slices with full-stack autonomy per feature.
+* Delay service-splitting until team scale, scaling constraints, or independent deployment cadence **force it**.
+* Write for reuse **within and across** systems—if you can't imagine reusing a module, it likely violates separation of concerns.
+* Treat APIs like code contracts. APIs are the interface layer of modularity and composability.
+* Encapsulate each module’s data—access via API only, never across internal boundaries.
+
+## 🚦 Architectural Decision Heuristics
+
+* Start with “Make it work. Then make it simple. Then optimize.” Functionality > clarity > performance.
+* Only modularize what you *understand*. Start with core, high-impact features first.
+* Prefer composition over inheritance (OOP). Prefer explicit orchestration over hidden dependency chains.
+* Don’t design for hypothetical flexibility (“YAGNI”). Only generalize when duplication pain appears.
+* Choose monoliths where boundaries are unclear or deployment is unified. Migrate to microservices *incrementally*.
+
+## 🧪 Isolation and Testability Practices
+
+* Each module/service should be testable in full isolation. Unit test first, then integrate with mocks/stubs.
+* Compose read-only “query models” via event-driven sync instead of distributed joins.
+* Own your test strategy: static analysis + fuzzing + taint tracking + API-level integration tests for every exposed interface.
+* Use context-isolated read models to localize data access while maintaining modularity.
+
+## 🧰 Tool & Infra Guidelines with Architectural Impact
+
+* Use PlantUML for CI-friendly architecture docs; version your diagrams alongside your code.
+* API Gateway: For monoliths use NGINX/Spring Gateway. For microservices: Kong/APISIX with dynamic routing + service discovery.
+* Service Mesh (e.g., Linkerd) needed day-1 in microservices to manage East-West traffic, enforce TLS, observe behavior.
+* LLM prompting tools (LangSmith, PromptLayer, etc.) are *infrastructure*. Use version control and PaC discipline from the start.
+
+## ⚠️ Known Anti-Patterns & Failure Triggers
+
+* **Distributed Monolith:** Looks like microservices, acts like a monolith. Trigger: shared DBs, synchronous RPC chains.
+* **Nanoservices:** Too-fine-grained services with negligible autonomy = overhead without value.
+* **Chatty Services:** Performance killer. Symptom: too many small calls. Fix: coalesce or shift to async.
+* **Layer Violation:** Presentation code accessing DB directly—destroys isolation. Use closed layers.
+* **Lava Flow / Boat Anchors:** Dead code, zombie features—remove relentlessly.
+
+## 🧭 Practical LLM Integration Tactics
+
+* **Never trust LLM output blindly.** Treat AI code as junior dev output—review, test, refactor.
+* **Prompts as Code:** Version, test, and document prompts. Use tooling like Agenta/Helicone for audit trails.
+* **Own your context window.** Actively manage the info passed to LLMs. Architect for tight prompt contexts.
+* Use structured output (JSON, tool calls) instead of relying on LLMs to “just write code.”
+* Implement human-in-the-loop for anything user-facing or security-critical.
+
+## 🧗 Skill Progression Tracks
+
+* Start with modular monoliths before touching distributed systems.
+* Use API-first and event-driven patterns as the backbone of your architectural evolution.
+* Learn to identify bounded contexts with DDD; use ADRs to capture decisions.
+* For LLM-focused devs: master prompt versioning, learn structured chaining, and design for error-handling up front.
+
+## 📋 Noob Traps and Strategic Fixes
+
+* **Trap:** Using default public visibility → accidental tight coupling.
+
+  * **Fix:** Make internals private by default. Explicitly expose only what's needed.
+* **Trap:** Refusing to redraw boundaries.
+
+  * **Fix:** When change hurts too many areas, it’s time to redefine your module/service scopes.
+* **Trap:** Premature optimization/generalization.
+
+  * **Fix:** Wait for pain. Then design around it.
+* **Trap:** Letting LLMs architect.
+
+  * **Fix:** They don’t think in systems—only trust LLMs with isolated, reviewable tasks.
+
+## 🛠️ Architect-Level Workflows
+
+* Use “iteration zero” for risk-kill design: identify top 3 technical risks and design only enough to contain them.
+* For composability pilots: choose high-ROI, low-risk domains first (e.g., product catalog, search).
+* Diagram everything. Version everything. Automate all testing.
+* Track architectural decisions with Architecture Decision Records (ADRs)—low friction, high ROI.

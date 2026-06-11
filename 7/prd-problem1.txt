@@ -1,0 +1,27 @@
+In this problem, you will use Structural Topic Modeling (STM) to analyze 20,491 hotel reviews to understand what customers value most and what they dislike.
+
+Using `hotel_reviews.csv` from the Tripadvisor Hotel Review Dataset (Alam, M. H., Ryu, W.-J., Lee, S., 2016. Joint multi-grain topic sentiment: modeling semantic aspects for online reviews. Information Sciences 339, 206–223), you will explore the relationship between 
+review ratings and the topics discussed.
+
+Please follow these steps:
+
+(a)	Data Preparation:
+•	Load the dataset `hotel_reviews.csv` using R's `read.csv()` function.
+•	Extract the `Review` column as the documents and the `Rating` column as the metadata.
+•	Preprocess the text by converting all characters to lowercase, removing any special characters or numbers, and applying stemming.
+
+(b)	STM Model Implementation:
+•	Run R's `selectModel()` function from the `stm` package to implement STM, configuring it with 3 topics and using `Rating` as a covariate.
+•	Plot semantic coherence and exclusivity scores, and choose the best-performing model based on these metrics for further analysis.
+
+(c)	Results Analysis:
+•	Present the top 7 words for each topic derived from the STM model.
+•	Plot word clouds for each topic using the `cloud()` function from the `stm` package, where word size reflects its prevalence in the topic.
+•	For each topic, identify and present the 5 top reviews most associated with it.
+•	Finally, for each topic, read the top words and top reviews, and provide a label. The label can be either 2-4 words or a sentence.
+
+(d)	Visualization and Interpretation:
+•	Plot the prevalence for topics from your STM model. You can use `plot()` applied to an object of class STM.
+•	Use `estimateEffect()` to assess how the `Rating` variable influences the prevalence of each topic.
+•	Plot the effects of different ratings on topic prevalence.
+•	Determine what customers value most and what they dislike, based on the estimated correlation between the `Rating` variable and topic prevalence.

@@ -1,0 +1,613 @@
+---
+title: "Assignment 7 - Structural Topic Modeling (Problems 1 & 2)"
+author: "Stephen Pasco"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cosmo
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.width = 10, fig.height = 6)
+```
+
+```{r load-packages}
+library(stm)
+library(SnowballC)
+library(wordcloud)
+library(tm)
+library(ggplot2)
+library(scales)
+```
+
+```{r helper-functions}
+# Helper function: Min-max normalization to [0, 1] scale
+# This function rescales a numeric vector to the range [0, 1]
+# Used for combining metrics with different scales (e.g., coherence and exclusivity)
+normalize_metric <- function(x) {
+  x_min <- min(x, na.rm = TRUE)
+  x_max <- max(x, na.rm = TRUE)
+
+  # Handle edge case where all values are identical
+  if (x_max == x_min) {
+    return(rep(0.5, length(x)))
+  }
+
+  (x - x_min) / (x_max - x_min)
+}
+```
+
+---
+
+# Part A: Data Preparation
+
+## Loading the Dataset
+
+```{r load-data}
+# Load the hotel reviews dataset
+hotel_data <- read.csv("data/hotel_reviews.csv", stringsAsFactors = FALSE)
+
+# Validate data integrity
+stopifnot(
+  "Data file must contain Review column" = "Review" %in% names(hotel_data),
+  "Data file must contain Rating column" = "Rating" %in% names(hotel_data),
+  "Dataset must not be empty" = nrow(hotel_data) > 0,
+  "Reviews must not be empty strings" = all(nchar(trimws(hotel_data$Review)) > 0),
+  "Ratings must be between 1 and 5" = all(hotel_data$Rating >= 1 & hotel_data$Rating <= 5)
+)
+
+cat("Dataset loaded successfully:", nrow(hotel_data), "reviews\n")
+```
+
+## Text Preprocessing
+
+```{r preprocess}
+# Extract reviews and ratings
+reviews <- hotel_data$Review
+ratings <- hotel_data$Rating
+
+# Preprocess text using textProcessor
+processed <- textProcessor(
+  documents = reviews,
+  metadata = data.frame(rating = ratings),
+  lowercase = TRUE,
+  removestopwords = TRUE,
+  removenumbers = TRUE,
+  removepunctuation = TRUE,
+  stem = TRUE,
+  wordLengths = c(3, Inf)
+)
+
+# Prepare documents
+# lower.thresh = 10 removes terms appearing in < 10 documents (~0.05% of corpus)
+# This filters out extremely rare terms that may be typos or noise while
+# preserving domain-specific vocabulary
+out <- prepDocuments(
+  documents = processed$documents,
+  vocab = processed$vocab,
+  meta = processed$meta,
+  lower.thresh = 10
+)
+
+docs <- out$documents
+vocab <- out$vocab
+meta <- out$meta
+```
+
+---
+
+# Part B: STM Model Implementation
+
+## Running selectModel()
+
+We run `selectModel()` to fit multiple STM models with 3 topics, using Rating as a prevalence covariate. The function performs multiple random initializations to help us select the best model based on semantic coherence and exclusivity.
+
+```{r select-model, results='hide'}
+set.seed(42)
+
+# Run selectModel with 3 topics and Rating as covariate
+models <- selectModel(
+  documents = docs,
+  vocab = vocab,
+  K = 3,
+  prevalence = ~ rating,
+  max.em.its = 75,
+  data = meta,
+  runs = 10,
+  seed = 42
+)
+```
+
+## Model Selection: Semantic Coherence vs Exclusivity
+
+Semantic coherence measures how often the top words in a topic co-occur in documents (higher is better). Exclusivity measures how distinctive a topic's words are compared to other topics (higher is better). We want a model that balances both metrics.
+
+```{r plot-model-metrics}
+# Plot semantic coherence vs exclusivity
+plotModels(models)
+title("Model Selection: Semantic Coherence vs Exclusivity")
+```
+
+## Select the Best Model
+
+We select the model with the best balance between semantic coherence and exclusivity. Typically, we want high values for both, but there's often a trade-off.
+
+```{r select-best-model}
+# Select the model with highest average of normalized coherence and exclusivity
+coherence <- unlist(lapply(models$runout, function(x) mean(semanticCoherence(x, docs))))
+exclusivity <- unlist(lapply(models$runout, function(x) mean(exclusivity(x))))
+
+# Normalize to [0,1] scale using helper function
+coherence_norm <- normalize_metric(coherence)
+exclusivity_norm <- normalize_metric(exclusivity)
+
+# Combined score (equal weighting)
+combined_score <- coherence_norm + exclusivity_norm
+best_model_idx <- which.max(combined_score)
+
+# Extract the best model
+stm_model <- models$runout[[best_model_idx]]
+```
+
+---
+
+# Part C: Results Analysis
+
+## Top 7 Words for Each Topic
+
+```{r top-words}
+# Extract top words for each topic
+top_words <- labelTopics(stm_model, n = 7)
+
+cat("Top 7 words for each topic:\n\n")
+for (i in 1:3) {
+  cat("Topic", i, ":\n")
+  cat("  FREX words:", paste(top_words$frex[i,], collapse = ", "), "\n")
+  cat("  Highest prob:", paste(top_words$prob[i,], collapse = ", "), "\n\n")
+}
+```
+
+## Word Clouds for Each Topic
+
+Word clouds visualize the most prevalent words in each topic, with size reflecting word importance.
+
+```{r wordclouds, fig.height=4, fig.width=12}
+# Create word clouds for each topic
+par(mfrow = c(1, 3))
+for (i in 1:3) {
+  cloud(stm_model, topic = i, scale = c(3, 0.5), max.words = 50)
+  title(paste("Topic", i), line = 1)
+}
+par(mfrow = c(1, 1))
+```
+
+## Top 5 Reviews for Each Topic
+
+These are the reviews most strongly associated with each topic.
+
+```{r top-reviews}
+# Find top reviews for each topic
+for (i in 1:3) {
+  cat("\n", rep("=", 80), "\n", sep = "")
+  cat("Topic", i, "- Top 5 Reviews:\n")
+  cat(rep("=", 80), "\n\n", sep = "")
+
+  thoughts <- findThoughts(stm_model, texts = reviews, topics = i, n = 5)
+
+  # Get the indices (thoughts$index is a list)
+  indices <- thoughts$index[[1]]
+
+  # Safety check: ensure we have valid data
+  n_available <- min(5, length(indices), length(thoughts$docs[[1]]))
+
+  if (n_available == 0) {
+    cat("No reviews found for this topic.\n\n")
+    next
+  }
+
+  for (j in 1:n_available) {
+    cat("Review", j, "(Rating:", meta$rating[indices[j]], "):\n")
+    # Show first 400 characters of each review (word-boundary aware)
+    review_text <- as.character(thoughts$docs[[1]][j])
+    truncated <- substr(review_text, 1, 400)
+    # Add ellipsis only if text was actually truncated
+    if (nchar(review_text) > 400) {
+      cat(truncated, "...\n\n")
+    } else {
+      cat(review_text, "\n\n")
+    }
+  }
+}
+```
+
+## Topic Labels
+
+Based on the top words and representative reviews above, assign interpretive labels:
+
+```{r topic-labels}
+topic_labels <- c(
+  "Topic 1" = "Room Quality and Service Complaints",
+  "Topic 2" = "Beach Resort Amenities and Activities",
+  "Topic 3" = "City Hotel Location and Access"
+)
+
+for (i in 1:3) {
+  cat("Topic", i, ":", topic_labels[i], "\n")
+}
+```
+
+---
+
+# Part D: Visualization and Interpretation
+
+## Topic Prevalence
+
+This plot shows the overall prevalence (frequency) of each topic across all reviews.
+
+```{r topic-prevalence}
+# Plot topic prevalence
+plot(stm_model, type = "summary", text.cex = 0.8, main = "Topic Prevalence in Hotel Reviews")
+```
+
+## Effect of Rating on Topic Prevalence
+
+We use `estimateEffect()` to model how ratings influence the prevalence of each topic.
+
+```{r estimate-effects, results='hide'}
+# Estimate the effect of rating on topic prevalence
+effects <- estimateEffect(
+  formula = 1:3 ~ rating,
+  stmobj = stm_model,
+  metadata = meta,
+  uncertainty = "Global"
+)
+```
+
+## Visualizing Rating Effects
+
+These plots show how topic prevalence changes with different ratings.
+
+```{r plot-effects, fig.height=4, fig.width=12}
+# Plot the effect of rating on each topic
+par(mfrow = c(1, 3))
+for (i in 1:3) {
+  plot(
+    effects,
+    covariate = "rating",
+    topics = i,
+    model = stm_model,
+    method = "continuous",
+    xlab = "Rating (1-5)",
+    main = paste("Effect of Rating on", topic_labels[i]),
+    xlim = c(1, 5),
+    printlegend = FALSE
+  )
+}
+par(mfrow = c(1, 1))
+```
+
+## What Customers Value vs Dislike
+
+```{r interpretation}
+for (topic_num in 1:3) {
+  topic_summary <- summary(effects, topics = topic_num)
+  rating_coef <- topic_summary$tables[[1]][2, "Estimate"]
+  rating_pval <- topic_summary$tables[[1]][2, "Pr(>|t|)"]
+
+  cat("Topic", topic_num, "- Rating Coefficient:", round(rating_coef, 5),
+      "(p =", format.pval(rating_pval, digits = 3), ")")
+
+  if (rating_coef > 0) {
+    cat(" - Valued by customers\n")
+  } else {
+    cat(" - Disliked by customers\n")
+  }
+}
+```
+
+---
+
+# Part E: Problem 2 - Determining Optimal Number of Topics with searchK()
+
+## Overview
+
+In Problem 1, we used `selectModel()` with a fixed K=3 topics. Now in Problem 2, we systematically determine the optimal number of topics using `searchK()`, which evaluates models across different values of K by computing diagnostic metrics.
+
+## (a) Running searchK() for K = 2 to 6
+
+```{r search-k, results='hide'}
+set.seed(42)
+
+# Search for optimal K from 2 to 6 topics
+search_results <- searchK(
+  documents = docs,
+  vocab = vocab,
+  K = c(2, 3, 4, 5, 6),
+  prevalence = ~ rating,
+  data = meta,
+  max.em.its = 75,
+  init.type = "Spectral",
+  seed = 42
+)
+
+# Validate searchK() results
+cat("searchK() completed for", nrow(search_results$results), "K values\n")
+cat("Expected:", length(c(2, 3, 4, 5, 6)), "K values\n")
+```
+
+## (b) Exclusivity vs Semantic Coherence
+
+Semantic coherence measures how often the top words in a topic co-occur in documents (higher is better). Exclusivity measures how distinctive a topic's words are compared to other topics (higher is better).
+
+```{r plot-search-results, fig.height=6}
+# Use the built-in plot function from STM package
+plot(search_results)
+```
+
+---
+
+# Part F: Composite Score Analysis
+
+## (c) Rescaling Metrics to [0, 1]
+
+We normalize both coherence and exclusivity to the [0, 1] scale:
+
+```{r rescale-metrics}
+# Extract metrics from search_results using unlist()
+metrics_df <- data.frame(
+  K = c(2, 3, 4, 5, 6),
+  Coherence = unlist(search_results$results$semcoh),
+  Exclusivity = unlist(search_results$results$exclus)
+)
+
+# Normalize coherence and exclusivity to [0, 1] scale using helper function
+metrics_df$Coherence_Norm <- normalize_metric(metrics_df$Coherence)
+metrics_df$Exclusivity_Norm <- normalize_metric(metrics_df$Exclusivity)
+
+# Display the rescaled metrics
+cat("Rescaled Metrics:\n")
+print(metrics_df[, c("K", "Coherence_Norm", "Exclusivity_Norm")])
+```
+
+## (d) Calculate and Plot Composite Score
+
+**Composite Score = 0.5 × (Rescaled Coherence) + 0.5 × (Rescaled Exclusivity)**
+
+```{r calculate-composite}
+# Calculate composite score with equal weighting (0.5 each)
+metrics_df$Composite_Score <- 0.5 * metrics_df$Coherence_Norm + 0.5 * metrics_df$Exclusivity_Norm
+
+# Display the complete metrics table
+cat("Metrics Summary with Composite Score:\n")
+print(metrics_df)
+```
+
+```{r plot-composite-components, fig.height=6, fig.width=10}
+# Plot showing all three metrics: rescaled coherence, rescaled exclusivity, and composite score
+ggplot(metrics_df, aes(x = K)) +
+  geom_line(aes(y = Coherence_Norm, color = "Rescaled Coherence"), linewidth = 1.2) +
+  geom_point(aes(y = Coherence_Norm, color = "Rescaled Coherence"), size = 4) +
+  geom_line(aes(y = Exclusivity_Norm, color = "Rescaled Exclusivity"), linewidth = 1.2) +
+  geom_point(aes(y = Exclusivity_Norm, color = "Rescaled Exclusivity"), size = 4) +
+  geom_line(aes(y = Composite_Score, color = "Composite Score"), linewidth = 1.2) +
+  geom_point(aes(y = Composite_Score, color = "Composite Score"), size = 4) +
+  scale_color_manual(
+    values = c(
+      "Rescaled Coherence" = "steelblue",
+      "Rescaled Exclusivity" = "coral",
+      "Composite Score" = "darkgreen"
+    )
+  ) +
+  scale_x_continuous(breaks = metrics_df$K) +
+  labs(
+    title = "Composite Score and Its Components vs Number of Topics",
+    subtitle = "Composite Score = 0.5 × (Rescaled Coherence) + 0.5 × (Rescaled Exclusivity)",
+    x = "Number of Topics (K)",
+    y = "Normalized Score [0, 1]",
+    color = "Metric"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    plot.subtitle = element_text(size = 11),
+    axis.title = element_text(size = 12),
+    legend.position = "bottom"
+  )
+```
+
+---
+
+## (e) Plot Composite Score and Select Optimal K
+
+```{r plot-composite-score, fig.height=5}
+# Create composite score plot focused on optimal K selection
+ggplot(metrics_df, aes(x = K, y = Composite_Score)) +
+  geom_line(color = "darkblue", linewidth = 1.2) +
+  geom_point(size = 4, color = "steelblue") +
+  geom_point(
+    data = metrics_df[which.max(metrics_df$Composite_Score), ],
+    aes(x = K, y = Composite_Score),
+    size = 6,
+    color = "red",
+    shape = 1,
+    stroke = 2
+  ) +
+  scale_x_continuous(breaks = metrics_df$K) +
+  labs(
+    title = "Composite Score vs Number of Topics",
+    subtitle = "Optimal K highlighted in red",
+    x = "Number of Topics (K)",
+    y = "Composite Score"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    plot.subtitle = element_text(size = 11),
+    axis.title = element_text(size = 12)
+  )
+```
+
+### Justification for Optimal K
+
+```{r select-optimal-k}
+optimal_k <- metrics_df$K[which.max(metrics_df$Composite_Score)]
+optimal_score <- max(metrics_df$Composite_Score)
+
+cat(
+  "\n**OPTIMAL NUMBER OF TOPICS:** K =", optimal_k, "\n\n",
+  "**Composite Score:**", round(optimal_score, 4), "\n\n",
+  "**JUSTIFICATION:**\n\n",
+  "K =", optimal_k, "maximizes the composite score (", round(optimal_score, 4),
+  "), which equally weights rescaled semantic coherence (how often top words co-occur in documents) and exclusivity (how distinctive topics are from each other). This represents the optimal trade-off between interpretable topics and minimal topic overlap.\n\n"
+)
+```
+
+---
+
+# Part G: Final Model Results with Optimal K
+
+## (f) Results for Optimal K
+
+### Fitting STM Model with Optimal K
+
+```{r fit-optimal-model, results='hide'}
+# Fit the final model with optimal K
+optimal_model <- stm(
+  documents = docs,
+  vocab = vocab,
+  K = optimal_k,
+  prevalence = ~ rating,
+  data = meta,
+  max.em.its = 75,
+  seed = 42,
+  init.type = "Spectral"
+)
+```
+
+### Top 7 Words for Each Topic
+
+```{r optimal-top-words}
+# Extract top words for each topic
+optimal_top_words <- labelTopics(optimal_model, n = 7)
+
+cat("Top 7 words for each topic (K =", optimal_k, "):\n\n")
+for (i in 1:optimal_k) {
+  cat("Topic", i, ":\n")
+  cat("  FREX words:    ", paste(optimal_top_words$frex[i,], collapse = ", "), "\n")
+  cat("  Highest prob:  ", paste(optimal_top_words$prob[i,], collapse = ", "), "\n\n")
+}
+```
+
+### Word Clouds for Each Topic
+
+```{r optimal-wordclouds, fig.height=4, fig.width=12}
+# Determine layout based on number of topics
+if (optimal_k <= 3) {
+  par(mfrow = c(1, optimal_k))
+} else if (optimal_k == 4) {
+  par(mfrow = c(2, 2))
+} else if (optimal_k <= 6) {
+  par(mfrow = c(2, 3))
+}
+
+# Create word clouds for each topic
+for (i in 1:optimal_k) {
+  cloud(optimal_model, topic = i, scale = c(3, 0.5), max.words = 50)
+  title(paste("Topic", i), line = 1)
+}
+
+par(mfrow = c(1, 1))
+```
+
+### Top Review for Each Topic
+
+```{r optimal-top-reviews}
+# Find top review for each topic
+for (i in 1:optimal_k) {
+  cat("\n", rep("=", 80), "\n", sep = "")
+  cat("Topic", i, "- Top Review:\n")
+  cat(rep("=", 80), "\n\n", sep = "")
+
+  thoughts <- findThoughts(optimal_model, texts = reviews, topics = i, n = 1)
+
+  # Safety check: ensure we have valid data
+  if (length(thoughts$index[[1]]) == 0 || length(thoughts$docs[[1]]) == 0) {
+    cat("No reviews found for this topic.\n\n")
+    next
+  }
+
+  # Get the index
+  index <- thoughts$index[[1]][1]
+
+  cat("Rating:", meta$rating[index], "\n\n")
+  cat("Review:\n")
+  cat(as.character(thoughts$docs[[1]][1]), "\n\n")
+}
+```
+
+### Topic Prevalence for Optimal Model
+
+```{r optimal-prevalence}
+# Plot topic prevalence
+plot(optimal_model, type = "summary", text.cex = 0.8,
+     main = paste("Topic Prevalence in Hotel Reviews (K =", optimal_k, ")"))
+```
+
+---
+
+# Part H: Summary and Comparison
+
+## Comparison: Problem 1 (K=3) vs Problem 2 (Optimal K)
+
+```{r comparison}
+conclusion <- if (optimal_k == 3) {
+  "**CONCLUSION:** The data-driven approach confirms that K = 3 is optimal.\n"
+} else {
+  paste0("**CONCLUSION:** The data-driven approach suggests K = ", optimal_k, " provides better balance than the fixed K = 3 used in Problem 1.\n")
+}
+
+cat(
+  "\n**PROBLEM 1: Fixed K = 3 topics**\n\n",
+  "- Used selectModel() with multiple random initializations\n",
+  "- Selected best model based on semantic coherence and exclusivity\n\n",
+  "---\n\n",
+  "**PROBLEM 2: Data-driven optimal K =", optimal_k, "topics**\n\n",
+  "- Used searchK() to evaluate K = 2, 3, 4, 5, 6\n",
+  "- Selected K based on composite score balancing coherence and exclusivity\n",
+  "- **Composite Score:**", round(optimal_score, 4), "\n\n",
+  "---\n\n",
+  conclusion
+)
+```
+
+---
+
+# Reproducibility Information
+
+## Session Information
+
+This section documents the R environment, package versions, and system information to ensure reproducibility of results.
+
+```{r session-info}
+# Display complete session information including R version and loaded packages
+sessionInfo()
+```
+
+## Data Summary
+
+```{r data-summary}
+cat(
+  "**Dataset:** hotel_reviews.csv\n",
+  "**Total Reviews:**", nrow(hotel_data), "\n",
+  "**Rating Distribution:**\n"
+)
+table(hotel_data$Rating)
+
+cat("\n**Processing Summary:**\n")
+cat("- Original vocabulary size:", length(processed$vocab), "unique terms\n")
+cat("- After filtering (lower.thresh = 10):", length(vocab), "unique terms\n")
+cat("- Documents retained:", length(docs), "out of", length(reviews), "\n")
+```

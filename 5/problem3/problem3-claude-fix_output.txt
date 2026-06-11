@@ -1,0 +1,95 @@
+
+================================================================================
+RUN: 4 codings
+================================================================================
+
+================================================================================
+IMDb AUTOENCODER - TRAINING 4 CODINGS
+================================================================================
+
+[1] Loading IMDb dataset...
+✓ Training samples: 25000
+✓ Test samples: 25000
+
+[2] Converting to bag-of-words vectors...
+✓ Shape: (25000, 10000)
+✓ Avg words/review: 101.3
+
+[2b] Computing baseline performance...
+✓ Baseline MSE (mean prediction): 0.0078
+   (Models must beat this to be useful)
+
+[3] Building model with 4 codings...
+    (Using binary_crossentropy, dropout, and early stopping)
+✓ Model created
+✓ Parameters: 10,515,732
+
+[4] Training model (max 15 epochs, early stopping patience=3)...
+    Using professor's architecture: 512→256→4(linear)→256→512
+    Training... ✓ Complete in 15 epochs
+
+[5] Evaluating on test set...
+✓ Test Loss: 0.0348
+✓ Test Accuracy: 0.9913
+
+[6] Sample Reconstructions (4 codings)...
+================================================================================
+
+Sample 1 (Sentiment: Positive)
+--------------------------------------------------------------------------------
+ORIGINAL (top 30):
+  <PAD> <START> <UNK> the and a to is i this was for movie but film on not you his have an they from her what good more my were me
+
+RECONSTRUCTED (top 30 by probability):
+  <PAD> <START> the i and a to <UNK> it of this in was is that movie for my have but so you on with as great all not me one
+
+  Word Overlap: 20/30 (66.7%)
+  Top 5 Probs: [0.996, 0.996, 0.973, 0.971, 0.962]
+
+Sample 2 (Sentiment: Positive)
+--------------------------------------------------------------------------------
+ORIGINAL (top 30):
+  <UNK> the and a of to is br in it i this as for with but on not are be one all by who it's has there good very up
+
+RECONSTRUCTED (top 30 by probability):
+  the <UNK> a and to of in is it that this i but br for as with not was have on film be movie all you are like at so
+
+  Word Overlap: 21/30 (70.0%)
+  Top 5 Probs: [0.999, 0.996, 0.993, 0.990, 0.989]
+
+Sample 3 (Sentiment: Positive)
+--------------------------------------------------------------------------------
+ORIGINAL (top 30):
+  <UNK> the and a of to is br in it i this that was for with but film on are he be an who so from like or has there
+
+RECONSTRUCTED (top 30 by probability):
+  the <UNK> a and of to in is that it this but with br for as on film not are his be at have all by an one from he
+
+  Word Overlap: 22/30 (73.3%)
+  Top 5 Probs: [1.000, 0.999, 0.998, 0.994, 0.994]
+
+================================================================================
+RESULTS SUMMARY
+================================================================================
+
+Baseline MSE: 0.0078
+
+4 codings:
+  Test Loss: 0.0348
+  Test Accuracy: 0.9913
+  Compression: 2500.0:1
+  Epochs trained: 15
+
+================================================================================
+ANSWER TO QUESTION [6]
+================================================================================
+
+** Training 4 codings complete **
+   Test Loss: 0.0348
+   Test Accuracy: 0.9913
+   Compression Ratio: 2500.0:1
+
+================================================================================
+✓ 4 codings complete
+================================================================================
+

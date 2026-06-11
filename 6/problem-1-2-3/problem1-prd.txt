@@ -1,0 +1,18 @@
+In this problem, you will explore topic modeling using Latent Dirichlet Allocation (LDA). You will choose a single, lengthy news article, manually estimate the number of topics it covers, split the text into documents by paragraphs, and apply LDA to identify and analyze these topics. Please follow these steps:
+
+(a)	Article Selection and Topic Estimation:
+•	Select a comprehensive news article, ideally containing multiple paragraphs and topics.
+•	Read the article manually and decide how many topics you believe are represented in the article.
+
+(b)	Data Preparation:
+•	Split the article into separate documents using paragraphs as delimiters.
+•	Preprocess the text by converting all characters to lowercase, removing stopwords, and stemming or lemmatizing the words.
+•	Display samples of the processed paragraphs to show the preprocessing results.
+
+(c)	LDA Model Implementation:
+•	Implement LDA using Python's `gensim` library, configuring it for the number of topics you estimated.
+•	Train the LDA model on the preprocessed documents.
+
+(d)	Results Presentation:
+•	Present the 10 most frequent words for each topic derived from the LDA model.
+•	For each topic, identify and present the 2 most associated documents (paragraphs). Provide a short label (2-3 words) for each topic based on the top words and associated documents, describing the latent topic succinctly.

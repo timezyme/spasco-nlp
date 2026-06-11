@@ -1,0 +1,23 @@
+In this problem, you will explore the text from Problem 1 to select the optimal number of topics for an LDA model using metrics such as topic coherence and exclusivity. You will iterate over a range of topic numbers and use a composite score combining coherence and exclusivity for evaluation. Please follow these steps:
+
+
+(a)	Data Utilization:
+•	Use the same text data prepared and preprocessed from Problem 1. Treat paragraphs as individual documents.
+
+(b)	LDA Model Implementation and Evaluation:
+•	Implement LDA using Python's `gensim` library on the preprocessed data, testing a range of topic numbers (e.g., from 2 to 10).
+•	Compute coherence for each LDA model configuration.
+•	Compute exclusivity by examining overlap among top 15 words of topics.
+
+(c)	Optimal Topic Selection:
+•	Plot coherence and exclusivity scores against the number of topics to identify patterns.
+•	Rescale (normalize) both the coherence and exclusivity scores to the same range (e.g., 0 to 1).
+•	Next, calculate and plot a composite score for Coherence and Exclusivity using their rescaled (normalized) values as follows:
+
+Composite Score = 0.5 × (Rescaled Coherence) + 0.5 × (Rescaled Exclusivity)
+
+•	Plot the composite score versus the number of topics, and justify your choice of the optimal number of topics based on this composite score.
+
+(d)	Results Presentation:
+•	For your selected model, present the 10 most frequent words for each topic.
+•	For each topic, identify and present the 2 most associated documents (paragraphs). Provide a short label (2-3 words) for each topic based on the top words and associated documents, describing the latent topic succinctly.

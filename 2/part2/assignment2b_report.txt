@@ -1,0 +1,48 @@
+======================================================================
+ASSIGNMENT 2 PART B: MOVIE REVIEW CLASSIFICATION REPORT
+Generated: 2025-09-20 13:24:48
+======================================================================
+
+Task: Movie review sentiment classification using only top 200 words
+(Modified from original IMDB example that used 10,000 words)
+
+
+1. DATA LOADING
+----------------------------------------
+Training samples: 25000
+Test samples: 25000
+Vocabulary size: 200 (reduced from 10,000)
+
+2. TRAINING RESULTS
+----------------------------------------
+Epochs trained: 6
+Final training accuracy: 74.78%
+Final validation accuracy: 74.00%
+Optimal number of epochs: 6
+Validation accuracy at optimal epoch: 74.00%
+
+3. RESULTS
+========================================
+
+(a) Plot saved: movie_review_accuracy_200words.png
+
+(b) Test accuracy with optimal 6 epochs: 73.64%
+    Test loss: 0.5304
+
+(c) Explanation of x_train[0]:
+----------------------------------------
+x_train[0] is a 200-dimensional binary vector representing a single movie review.
+- Shape: (200,)
+- Number of words present (1s): 68
+- Number of words absent (0s): 132
+- Each dimension corresponds to one of the top 200 most frequent words
+- This is a 'bag of words' representation where word order is lost
+
+4. COMPARISON WITH ORIGINAL
+----------------------------------------
+Original accuracy (10,000 words): ~88%
+This implementation (200 words): 73.64%
+Accuracy reduction: ~14.4%
+
+Conclusion: With only 2% of the original vocabulary,
+we achieve approximately 83.7% of the original accuracy.

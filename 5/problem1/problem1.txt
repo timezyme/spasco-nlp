@@ -1,0 +1,6 @@
+In this problem, we will explore character embeddings using Keras. Choose a large text dataset, such as a two- or three-page news article, to train your character embedding model, and then apply this model to a smaller text containing some new characters or symbols. Follow these steps:
+
+(a)	Preprocess both texts by converting characters to lowercase and mapping them to unique integers. Display samples of the processed smaller text.
+(b)	Train a character embedding model in Keras on the large text dataset. Apply it to the smaller text and display its embedded representation. Display samples of embeddings.
+(c)	Discuss the information that was transferred from the large text dataset to the embedded representation of the smaller text. Be specific in highlighting the shared character vocabulary and embedding weights built from the large text data, and explain the significance of these for the smaller text representation.
+(d)	Explain how the model handles new characters in the smaller text, including any Keras defaults for out-of-vocabulary cases.

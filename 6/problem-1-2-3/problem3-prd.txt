@@ -1,0 +1,17 @@
+In this problem, you will repeat the tasks from Problem 1, but using R instead of Python. This exercise will help you gain experience with topic modeling in a different programming environment.
+Instructions:
+
+•	Use the same text data from the news article you used in Problem 1, treating each paragraph as an individual document.
+
+•	Preprocess the text in R by converting it to lowercase, removing stopwords, and applying stemming or lemmatization.
+
+•	Implement LDA using R's `topicmodels` package or a similar library, configuring the model with the number of topics you used in Problem 1.
+
+•	Train the LDA model on the preprocessed documents and analyze the results.
+Results Presentation:
+
+•	Present the 10 most frequent words for each topic derived from the LDA model.
+
+•	For each topic, identify and present the 2 most associated documents (paragraphs).
+
+•	Provide a short label (2-3 words) for each topic based on the top words and associated documents, describing the latent topic succinctly. Please note that topics derived in this problem using R may differ from those obtained in Problem 1 with Python, due to differences in implementations, data handling, and the choice of random seed used during model training.
