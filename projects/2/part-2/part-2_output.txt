@@ -1,0 +1,28 @@
+PART 2 - IMDB SENTIMENT WITH A 200-WORD VOCABULARY
+============================================================
+Generated: 2026-06-11 16:21:45
+Versions: keras 3.14.1, tensorflow 2.21.0, scikit-learn 1.9.0
+Random seed: 42
+
+Protocol (identical for both vocabularies): explore for 20 epochs on the
+15k/10k train/val split, select the epoch with minimum validation loss,
+retrain from scratch on all 25k reviews, evaluate once on the test set.
+Batch size 512.
+
+Model                           Vocab  Best ep  Val acc  Test acc
+-----------------------------------------------------------------
+MLP 16-16, 200 words              200       15   0.7368    0.7421
+MLP 16-16, 10000 words          10000        4   0.8877    0.8836
+TF-IDF + LogisticRegression       200        -   0.7604    0.7593
+Majority class                      -        -        -    0.5000
+
+With 2% of the vocabulary the 200-word model retains 84.0% of the
+10000-word test accuracy (0.7421 vs 0.8836).
+
+(c) What x_train[0] represents:
+  A single review as a 200-dimensional multi-hot vector: position i is 1.0
+  if word index i occurs anywhere in the review, else 0.0. Order and
+  frequency are discarded (bag of words).
+  Measured on the first training review: 68 of 200 positions set.
+  Indices 0-2 are reserved markers (padding, sequence start, out-of-vocabulary),
+  so the count includes the start and OOV markers, not only real words.

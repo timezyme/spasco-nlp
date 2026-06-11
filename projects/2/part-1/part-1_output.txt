@@ -1,0 +1,22 @@
+PART 1 - GRU TEMPERATURE FORECASTING VS PERSISTENCE
+============================================================
+Generated: 2026-06-11 16:21:32
+Versions: keras 3.14.1, tensorflow 2.21.0, scikit-learn 1.9.0
+Random seed: 42
+
+Configuration:
+  Series: T (degC), 420551 observations at 10-minute steps
+  Test window: last 1440 observations (10 days)
+  Lookback: 60 steps (10 hours), one-step-ahead targets
+  Model: GRU(50) -> Dense(1), 8001 parameters, adam
+  Training: max 15 epochs, batch 64, val split 0.1 (temporal tail),
+  early stopping on val loss (patience 3, best weights restored)
+  Epochs run: 8, best epoch: 5
+
+Test window, single evaluation (units: °C):
+Model                           MSE       RMSE        MAE
+---------------------------------------------------------
+GRU one-step-ahead           0.0217     0.1474     0.0918
+Persistent forecast          0.0341     0.1847     0.1163
+
+MSE improvement over persistence: 36.3%

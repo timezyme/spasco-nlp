@@ -1,0 +1,31 @@
+PART 3 - IMDB SENTIMENT WITH EMBEDDING + LSTM
+============================================================
+Generated: 2026-06-11 16:17:47
+Versions: keras 3.14.1, tensorflow 2.21.0, scikit-learn 1.9.0
+Random seed: 42
+
+Configuration:
+  Vocabulary 10000, sequences pre-padded to 500
+  Embedding(10000, 200) -> LSTM(32) -> Dense(1, sigmoid)
+  2029857 parameters, rmsprop, binary cross-entropy
+  Training: max 20 epochs, batch 128, 15k/10k train/val split,
+  early stopping on val loss (patience 3, best weights restored)
+
+Epoch selection (on validation only):
+  Epochs run: 11
+  Best epoch: 8 (val accuracy 0.8754)
+
+Test set (best-validation weights, single evaluation):
+  Accuracy: 0.8713
+  Loss:     0.3190
+  Target accuracy >= 75%: achieved
+
+(c) Data representation:
+  x_train[0] is one complete review as a (500,) integer sequence:
+  each element is a word's rank index in the frequency-ordered
+  10000-word vocabulary. The Embedding layer maps every index to a
+  learned 200-dim vector, giving the LSTM a (500, 200) sequence per review.
+  The raw review has 218 words, so pre-padding fills the first 282
+  positions with 0.
+  x_train[0,0] = 0: index 0 is the padding token, not a word - the
+  review is shorter than 500 words, and pad_sequences pads at the front.
