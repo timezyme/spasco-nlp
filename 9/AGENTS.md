@@ -1,9 +1,9 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- Primary work happens in the notebooks: `Assign9.ipynb` for the assignment deliverable and `Assign9_test.ipynb` for quick experiments.
+- Primary work happens in the notebooks: `Assign9.ipynb` for the project deliverable and `Assign9_test.ipynb` for quick experiments.
 - Data lives in `data/news_data.csv`; keep derived artifacts (plots, model weights) in a temporary folder or ignore them via `.gitignore`.
-- Supporting references: `problem-requirements.txt` outlines tasks; `arxiv_2510.01115_sections-consolidated.json` is a readable source document; `.docx` files contain the assignment brief/submission text.
+- Supporting references: `problem-requirements.txt` outlines tasks; `arxiv_2510.01115_sections-consolidated.json` is a readable source document; `.docx` files contain the project spec and write-up text.
 
 ## Build, Test, and Development Commands
 - Create/activate an environment (Python 3.10+ recommended):

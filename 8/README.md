@@ -116,7 +116,7 @@ Build a neural network for SMS spam classification with custom preprocessing.
 - Metrics: test accuracy, sensitivity, specificity
 
 #### Performance Target
-**Test accuracy ≥ 0.98** for full credit
+**Test accuracy ≥ 0.98**
 
 #### Comparison
 - Recreate Problem 1 charts with neural network included
@@ -124,12 +124,12 @@ Build a neural network for SMS spam classification with custom preprocessing.
 
 ---
 
-## Course Materials
+## Reference Materials
 
-### TA Notes Structure
+### `TA-notes/` Structure
 
 #### `TA-notes/IntroNLP_Section9.ipynb`
-Main section notebook for Assignment 8 topics
+Main reference notebook for this project's topics
 
 #### `TA-notes/1/` - Topic Modeling
 - `article.txt` - Sample text on technological acceleration
@@ -232,7 +232,7 @@ seaborn
 ```
 8/
 ├── README.md                          # This file
-├── CSCI_S-89B_Assignment8.docx       # Assignment instructions (original)
+├── CSCI_S-89B_Assignment8.docx       # Original spec
 ├── problem-requirements.txt          # Extracted problem requirements
 ├── data/
 │   └── Spam_SMS.csv                  # Dataset (486KB)
@@ -249,7 +249,7 @@ seaborn
 
 ## Getting Started
 
-1. **Review TA materials** in `TA-notes/` directories (especially notebooks 2 & 3)
+1. **Review reference materials** in `TA-notes/` directories (especially notebooks 2 & 3)
 2. **Load dataset** from `data/Spam_SMS.csv`
 3. **Follow Problem 1 workflow** systematically (a → g)
 4. **Experiment with Problem 2** architecture for ≥0.98 accuracy
@@ -267,6 +267,4 @@ seaborn
 
 ---
 
-**Course:** CSCI-E-89b Introduction to Natural Language Processing
-**Assignment:** 8
 **Focus:** Text Classification & Machine Learning Comparison
