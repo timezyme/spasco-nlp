@@ -1,4 +1,4 @@
-# Assignment 4 Part 2: Movie Review Classification - Requirements
+# Project 4 Part 2: Movie Review Classification - Requirements
 
 ## Objective
 Achieve **test accuracy ≥ 90%** on IMDB movie review classification using TF-IDF with n-grams.
@@ -100,7 +100,7 @@ Instead of guessing, test incrementally:
 - **Results:** `4/part2/test_accuracy_90plus.txt`
 
 ## Environment
-- Python: `/Users/spasco/Projects/Harvard/CSCI-E-89b-NLP/assignments/venv/bin/python`
+- Python: `./venv/bin/python`
 - Hardware: MacBook Pro M4
 - Training time constraint: Preferably <15 minutes per experiment
 
@@ -281,7 +281,7 @@ Please do not change the `num_words` parameter:
 (train_data, train_labels), (test_data, test_labels) = imdb.load_data(num_words=10000)
 
 Instead, modify the vector representations of the documents by incorporating TF-IDF with 1-grams, 2-grams, 3-grams, or a combination of these n-grams. Please note that the input shape of the network will change; thus, revising the neural network architecture and the optimizer may be required. Consider adding regularization to enhance results.
-To receive full credit, design a model (utilizing 1-grams, 2-grams, 3-grams, or a mixture thereof) that achieves a test accuracy of at least 0.90.
+Design a model (utilizing 1-grams, 2-grams, 3-grams, or a mixture thereof) that achieves a test accuracy of at least 0.90.
 
 ```
 ## Test Results

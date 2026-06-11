@@ -1,5 +1,5 @@
 ---
-title: "Assignment 7 - Structural Topic Modeling (Problems 1 & 2)"
+title: "Project 7 - Structural Topic Modeling (Problems 1 & 2)"
 author: "Stephen Pasco"
 date: "`r Sys.Date()`"
 output:

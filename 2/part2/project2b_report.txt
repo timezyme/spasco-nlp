@@ -1,5 +1,5 @@
 ======================================================================
-ASSIGNMENT 2 PART B: MOVIE REVIEW CLASSIFICATION REPORT
+PROJECT 2 PART B: MOVIE REVIEW CLASSIFICATION REPORT
 Generated: 2025-09-20 13:24:48
 ======================================================================
 

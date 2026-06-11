@@ -1,5 +1,5 @@
 """
-Assignment 5 - Problem 1: Character-Level Embeddings with Keras
+Project 5 - Problem 1: Character-Level Embeddings with Keras
 
 This script implements character-level embeddings by:
 (a) Preprocessing text data with character-to-integer mapping
@@ -8,7 +8,6 @@ This script implements character-level embeddings by:
 (d) Handling out-of-vocabulary (OOV) characters
 
 Author: Stephen Pasco
-Course: CSCI E-89b NLP
 """
 
 import numpy as np
@@ -21,7 +20,7 @@ warnings.filterwarnings('ignore')
 np.random.seed(42)
 
 print("=" * 80)
-print("ASSIGNMENT 5 - PROBLEM 1: CHARACTER-LEVEL EMBEDDINGS")
+print("PROJECT 5 - PROBLEM 1: CHARACTER-LEVEL EMBEDDINGS")
 print("=" * 80)
 print()
 
@@ -608,7 +607,7 @@ print(summary)
 
 print()
 print("=" * 80)
-print("ASSIGNMENT 5 PROBLEM 1 COMPLETE")
+print("PROJECT 5 PROBLEM 1 COMPLETE")
 print("=" * 80)
 print()
 

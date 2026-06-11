@@ -107,7 +107,7 @@ spasco-nlp/
 ├── venv/                         # Python virtual environment (create locally, gitignored)
 ├── 1-9/                          # Project directories
 │   ├── *.ipynb                   # Jupyter notebooks
-│   ├── *.docx                    # Specs & write-ups
+│   ├── *.docx                    # Write-ups
 │   └── README.md                 # Project-specific docs
 ├── final-project/                # Final project materials
 └── guides/                       # Reference materials
@@ -175,4 +175,4 @@ Reference materials live in `guides/`:
 - Software Architecture Patterns
 - NLP-ML prompt engineering
 
-Several project directories also include reference notebooks and datasets (`docs/`, `data/`, and notes directories).
+Several project directories also include datasets in `data/`.

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Assignment 2 Part B: Movie Review Classification with 200-word vocabulary
+Project 2 Part B: Movie Review Classification with 200-word vocabulary
 Modified from the IMDB example to use only the top 200 most frequent words.
 """
 
@@ -34,14 +34,14 @@ def main():
     # Initialize report
     report = []
     report.append("=" * 70)
-    report.append("ASSIGNMENT 2 PART B: MOVIE REVIEW CLASSIFICATION REPORT")
+    report.append("PROJECT 2 PART B: MOVIE REVIEW CLASSIFICATION REPORT")
     report.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     report.append("=" * 70)
     report.append("\nTask: Movie review sentiment classification using only top 200 words")
     report.append("(Modified from original IMDB example that used 10,000 words)\n")
 
     print("=" * 70)
-    print("Assignment 2 Part B: Movie Review Classification")
+    print("Project 2 Part B: Movie Review Classification")
     print("Using only top 200 most frequent words (reduced from 10,000)")
     print("=" * 70)
 
@@ -218,11 +218,11 @@ def main():
     report.append(f"we achieve approximately {test_acc*100/88*100:.1f}% of the original accuracy.")
 
     # Generate the report file
-    report_filename = "assignment2b_report.txt"
+    report_filename = "project2b_report.txt"
     generate_report(report_filename, "\n".join(report))
 
     print("\n" + "=" * 70)
-    print("Assignment 2 Part B Complete!")
+    print("Project 2 Part B Complete!")
     print("=" * 70)
 
 if __name__ == '__main__':

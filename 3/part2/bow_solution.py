@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Assignment 3 Part 2: Word Tokenization and Bag of Words Model
+Project 3 Part 2: Word Tokenization and Bag of Words Model
 This script implements a BoW model using NLTK with lemmatization.
 """
 
@@ -139,7 +139,7 @@ def create_bow_vector(tokens, vocab):
 
 def main():
     print("=" * 60)
-    print("Assignment 3 Part 2: Bag of Words Model with Lemmatization")
+    print("Project 3 Part 2: Bag of Words Model with Lemmatization")
     print("=" * 60)
 
     # Initialize lemmatizer
@@ -309,7 +309,7 @@ def generate_report(large_tokens, small_tokens, vocab, bow_vector, oov_words, co
 
     report_content = f"""
 {"="*70}
-ASSIGNMENT 3 PART 2: VERIFICATION REPORT
+PROJECT 3 PART 2: VERIFICATION REPORT
 {"="*70}
 
 This report provides evidence that all requirements have been fulfilled.
@@ -432,18 +432,18 @@ All requirements successfully fulfilled:
 ☑ Part (c): OOV key identified (index = 0)
 
 Solution file: bow_solution.py
-Location: /Users/spasco/Projects/Harvard/CSCI-E-89b-NLP/assignments/3/part2/
+Location: ./3/part2/
 {"="*70}
 """
 
     # Write report to file
-    with open('assignment3_part2_evidence.txt', 'w', encoding='utf-8') as f:
+    with open('project3_part2_evidence.txt', 'w', encoding='utf-8') as f:
         f.write(report_content)
 
     print("\n" + "="*70)
     print("EVIDENCE REPORT GENERATED")
     print("="*70)
-    print("Report saved to: assignment3_part2_evidence.txt")
+    print("Report saved to: project3_part2_evidence.txt")
     print("\nReport verifies all requirements have been fulfilled:")
     print("  ✓ Part (a): Tokenization and lemmatization")
     print("  ✓ Part (b): Vocabulary and BoW model")

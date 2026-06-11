@@ -1,5 +1,5 @@
 """
-Assignment 4: Problem 1 - TF-IDF Vectorization with NLTK Preprocessing
+Project 4: Problem 1 - TF-IDF Vectorization with NLTK Preprocessing
 
 This module implements TF-IDF vectorization with NLTK preprocessing,
 demonstrating vocabulary transfer and OOV handling in text processing.
@@ -47,7 +47,7 @@ def preprocess_text(text, lemmatizer):
 
 def main():
     print("="*80)
-    print("Assignment 4 - Problem 1: TF-IDF Vectorization with NLTK Preprocessing")
+    print("Project 4 - Problem 1: TF-IDF Vectorization with NLTK Preprocessing")
     print("="*80)
 
     # Initialize lemmatizer

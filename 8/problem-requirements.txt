@@ -65,4 +65,4 @@ Follow these steps:
 •	Compute and display the test accuracy, test sensitivity, and test specificity of the model.
 •	Recreate the two charts from Problem 1 here, including the neural network’s performance. Discuss any differences in the results and potential reasons.
 
-A neural network, with the appropriate architecture, is expected to outperform other models on this dataset. To receive full credit, design a neural network that achieves a test accuracy of at least 0.98.
+A neural network, with the appropriate architecture, is expected to outperform other models on this dataset. Design a neural network that achieves a test accuracy of at least 0.98.

@@ -4,9 +4,9 @@
 
 This solution implements topic modeling using Latent Dirichlet Allocation (LDA) on a research paper about Network-Knowledge Graph Duality in supply chain risk analysis. The paper sections are treated as separate documents for topic discovery.
 
-## Assignment Requirements
+## Project Requirements
 
-The assignment required:
+The project required:
 
 ### (a) Article Selection and Topic Estimation
 - **Requirement**: Select a comprehensive news article and manually estimate the number of topics
@@ -190,4 +190,4 @@ seaborn==0.13.2       # Statistical visualizations
 
 ## Author
 
-Solution implemented for CSCI E-89b NLP course, Assignment 6, Problem 1.
+Stephen Pasco.

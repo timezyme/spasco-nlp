@@ -78,7 +78,7 @@ You then "register" these functions with the agent framework (like LangChain or 
 
 ### Week 3: Personalization & Evaluation (The Scientific Rigor)
 
-This is how you turn a cool tech demo into a high-grade case study.
+This is how you turn a cool tech demo into a high-quality case study.
 
 **Personalization in Practice: It's All About the Prompt**
 
@@ -94,7 +94,7 @@ Grok mentioned these metrics because they're standard, but for your case study, 
 **A Better Evaluation for Your Report:**
 
 1.  **Factual Consistency:** Design an experiment. For 10 papers, manually write down 5 key facts from each. Then, ask your agent questions that should elicit those facts. Measure how many of the 5 facts the agent correctly states. This tests for hallucination.
-2.  **Qualitative User Study (The A+ Move):** This is what your professor wants to see. Grab 5-10 classmates. For Paper A, have them read the abstract and then rate their comprehension on a scale of 1-10. For Paper B, let them use your TimeZyme tool for 15 minutes and then rate their comprehension. If the scores are higher with your tool, you have powerful, publishable evidence that your system *works*.
+2.  **Qualitative User Study (The Strongest Move):** Grab 5-10 volunteer readers. For Paper A, have them read the abstract and then rate their comprehension on a scale of 1-10. For Paper B, let them use your TimeZyme tool for 15 minutes and then rate their comprehension. If the scores are higher with your tool, you have powerful, publishable evidence that your system *works*.
 
 **Justifying the Nvidia GPU: Framing the Experiment**
 You don't just "use the GPU to make it better." You frame it as a specific research question for your case study:

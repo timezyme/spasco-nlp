@@ -3,7 +3,6 @@ Problem 3: Undercomplete Autoencoder for IMDb Movie Reviews
 Bag-of-Words Dense Autoencoder
 
 Author: Stephen Pasco
-Course: CSCI E-89b NLP
 """
 
 import sys

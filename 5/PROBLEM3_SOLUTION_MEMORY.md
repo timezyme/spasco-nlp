@@ -1,11 +1,10 @@
 # Problem 3 - IMDb Autoencoder Solution Memory
 **Date:** 2025-10-17
-**Course:** CSCI E-89b NLP
 **Status:** ✅ SOLVED - Achieved 99.13% accuracy with 4 codings
 
 ## 🎯 CRITICAL SUCCESS FACTORS
 
-### 1. Architecture (Professor's Design)
+### 1. Architecture (Reference Design)
 **MUST USE THIS EXACT ARCHITECTURE:**
 ```python
 # Encoder
@@ -18,7 +17,7 @@ Dense(N, LINEAR) → Dense(256, relu) → Dropout(0.1) → Dense(512, relu) → 
 ### 2. Key Parameters (DO NOT CHANGE)
 - **Activation in bottleneck:** LINEAR (not ReLU!) - This is CRITICAL for representation learning
 - **Loss function:** binary_crossentropy (not MSE) - Better for binary BoW data
-- **Dropout:** 0.1 (not 0.2) - Professor's value
+- **Dropout:** 0.1 (not 0.2) - Reference value
 - **Batch size:** 256 - Provides stable gradients
 - **Optimizer:** Adam(1e-3) - Explicit learning rate
 - **Validation split:** 0.1
@@ -50,7 +49,7 @@ words = [index_to_word.get(int(idx), '<UNK>') for idx in top_indices]
 
 ### Working Solution
 - **`5/problem3-claude-fix.py`** - The corrected implementation
-  - Uses professor's architecture
+  - Uses the reference architecture
   - Tests one model at a time (iterative)
   - Outputs to text file only (no JSON/keras saves)
 
@@ -93,7 +92,7 @@ words = [index_to_word.get(int(idx), '<UNK>') for idx in top_indices]
 
 ```bash
 # Use project virtual environment
-PYTHON=/Users/spasco/Projects/Harvard/CSCI-E-89b-NLP/assignments/venv/bin/python
+PYTHON=./venv/bin/python
 
 # Edit CODING_SIZE in problem3-claude-fix.py (line 41)
 # Options: 4, 8, 16, 32, 64
@@ -124,9 +123,7 @@ This proves that despite using 10,000 possible words, movie reviews fundamentall
 
 ## 📚 REFERENCES
 
-- Professor's notes: `5/docs/Autoencoder_Section.ipynb`
-- Professor's lab: `5/docs/Lab 12.ipynb`
-- Problem statement: `5/problem3.txt`
+- Problem statement: `5/problem3/problem3.txt`
 
 ---
 **Memory saved:** 2025-10-17 12:45 PST

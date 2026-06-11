@@ -25,7 +25,7 @@ IMDb AUTOENCODER - TRAINING 4 CODINGS
 ✓ Parameters: 10,515,732
 
 [4] Training model (max 15 epochs, early stopping patience=3)...
-    Using professor's architecture: 512→256→4(linear)→256→512
+    Using reference architecture: 512→256→4(linear)→256→512
     Training... ✓ Complete in 15 epochs
 
 [5] Evaluating on test set...

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Assignment 2 Part C: RNN Movie Review Classification with Sequence Processing
+Project 2 Part C: RNN Movie Review Classification with Sequence Processing
 Uses LSTM architecture with sequences of word indices and an Embedding layer.
 """
 
@@ -200,11 +200,11 @@ print(explanation_0_0)
 
 ## 8. Save Report to File
 
-print("\n[INFO] Generating assignment report...")
-report_filename = os.path.join(SCRIPT_DIR, 'assignment2c_report.txt')
+print("\n[INFO] Generating project report...")
+report_filename = os.path.join(SCRIPT_DIR, 'project2c_report.txt')
 with open(report_filename, 'w') as f:
     f.write("=" * 70 + "\n")
-    f.write("ASSIGNMENT 2 PART C: RNN MOVIE REVIEW CLASSIFICATION REPORT\n")
+    f.write("PROJECT 2 PART C: RNN MOVIE REVIEW CLASSIFICATION REPORT\n")
     f.write("=" * 70 + "\n\n")
     f.write("Configuration:\n")
     f.write(f"- Vocabulary size: {max_features} words\n")
@@ -225,6 +225,6 @@ with open(report_filename, 'w') as f:
 
 print(f"[SUCCESS] Report saved to: {report_filename}")
 print("\n" + "=" * 70)
-print("Assignment 2 Part C Complete!")
+print("Project 2 Part C Complete!")
 print(f"Test Accuracy: {test_acc * 100:.2f}% ({'PASS' if test_acc >= 0.75 else 'NEEDS IMPROVEMENT'})")
 print("=" * 70)

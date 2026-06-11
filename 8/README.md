@@ -124,36 +124,6 @@ Build a neural network for SMS spam classification with custom preprocessing.
 
 ---
 
-## Reference Materials
-
-### `TA-notes/` Structure
-
-#### `TA-notes/IntroNLP_Section9.ipynb`
-Main reference notebook for this project's topics
-
-#### `TA-notes/1/` - Topic Modeling
-- `article.txt` - Sample text on technological acceleration
-- `LDA_STM_Section.Rmd` - R Markdown tutorial
-- `LDA_STM_Section.html` - HTML output
-- `LDA_STM_Section.pdf` - PDF tutorial
-
-#### `TA-notes/2/` - Classification Basics
-- `TA17_LogisticReg_NaiveBayes_SVM.ipynb` - Logistic Regression, Naive Bayes, SVM tutorial
-
-#### `TA-notes/3/` - Tree & Instance-Based Methods
-- `Section_DecisionTree_RandomForest_KNN.ipynb` - Decision Trees, Random Forests, KNN tutorial
-
-#### `TA-notes/4/` - Structural Topic Models
-- `STM Lab.pdf` - Structural topic modeling lab guide
-
-#### `TA-notes/5/` - Advanced Topic Modeling
-- `LDA_vs_NMF_Tutorial_python.ipynb` - Python tutorial comparing LDA vs NMF
-- `lda_vs_nmf_AP_tutorial_r.Rmd` - R Markdown tutorial
-- `lda_vs_nmf_AP_tutorial_r.html` - HTML output
-- `lda_vs_nmf_AP_tutorial_r.pdf` - PDF tutorial
-
----
-
 ## Technical Stack
 
 ### Required Libraries
@@ -232,28 +202,20 @@ seaborn
 ```
 8/
 ├── README.md                          # This file
-├── CSCI_S-89B_Assignment8.docx       # Original spec
-├── problem-requirements.txt          # Extracted problem requirements
-├── data/
-│   └── Spam_SMS.csv                  # Dataset (486KB)
-└── TA-notes/
-    ├── IntroNLP_Section9.ipynb       # Main section notebook
-    ├── 1/                            # Topic modeling materials
-    ├── 2/                            # Classification basics
-    ├── 3/                            # Tree & instance methods
-    ├── 4/                            # STM materials
-    └── 5/                            # LDA vs NMF materials
+├── Assign8.ipynb                      # Main implementation notebook
+├── problem-requirements.txt          # Problem requirements
+└── data/
+    └── Spam_SMS.csv                  # Dataset (486KB)
 ```
 
 ---
 
 ## Getting Started
 
-1. **Review reference materials** in `TA-notes/` directories (especially notebooks 2 & 3)
-2. **Load dataset** from `data/Spam_SMS.csv`
-3. **Follow Problem 1 workflow** systematically (a → g)
-4. **Experiment with Problem 2** architecture for ≥0.98 accuracy
-5. **Compare results** and analyze trade-offs
+1. **Load dataset** from `data/Spam_SMS.csv`
+2. **Follow Problem 1 workflow** systematically (a → g)
+3. **Experiment with Problem 2** architecture for ≥0.98 accuracy
+4. **Compare results** and analyze trade-offs
 
 ---
 

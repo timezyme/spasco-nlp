@@ -3,7 +3,6 @@ Problem 3: Undercomplete Autoencoder for IMDb Movie Reviews
 Bag-of-Words Dense Autoencoder - IMPROVED VERSION
 
 Author: Stephen Pasco
-Course: CSCI E-89b NLP
 
 IMPROVEMENTS FROM CODE REVIEW:
 1. Fixed CRITICAL BUG in decode_bow() - removed sorted() that destroyed probability ranking
@@ -123,50 +122,50 @@ def main():
     print(f"\n[3] Building model with {CODING_SIZE} codings...")
     print("    (Using binary_crossentropy, dropout, and early stopping)")
 
-    # Build model using PROFESSOR'S ARCHITECTURE from Autoencoder_Section.ipynb
+    # Build model using the reference architecture
     encoder_input = layers.Input(shape=(max_features,))
     x = layers.Dense(512, activation='relu')(encoder_input)
-    x = layers.Dropout(0.1)(x)  # Professor uses 0.1, not 0.2
+    x = layers.Dropout(0.1)(x)  # Reference uses 0.1, not 0.2
     x = layers.Dense(256, activation='relu')(x)
     # CRITICAL: Use LINEAR activation in bottleneck for representation learning!
     encoder_output = layers.Dense(CODING_SIZE, activation='linear', name='latent')(x)
 
     # Decoder (symmetric)
     x = layers.Dense(256, activation='relu')(encoder_output)
-    x = layers.Dropout(0.1)(x)  # Professor uses 0.1
+    x = layers.Dropout(0.1)(x)  # Reference uses 0.1
     x = layers.Dense(512, activation='relu')(x)
     decoder_output = layers.Dense(max_features, activation='sigmoid')(x)
 
     model = models.Model(encoder_input, decoder_output)
 
-    # Use binary_crossentropy for binary data (matching professor's setup)
+    # Use binary_crossentropy for binary data (matching reference setup)
     model.compile(
-        optimizer=optimizers.Adam(1e-3),  # Professor uses explicit learning rate
+        optimizer=optimizers.Adam(1e-3),  # Reference uses explicit learning rate
         loss='binary_crossentropy',
-        metrics=['binary_accuracy']  # Professor uses binary_accuracy metric
+        metrics=['binary_accuracy']  # Reference uses binary_accuracy metric
     )
 
     print(f"✓ Model created")
     print(f"✓ Parameters: {model.count_params():,}")
 
-    # Add EarlyStopping callback (matching professor's settings)
+    # Add EarlyStopping callback (matching reference settings)
     early_stop = callbacks.EarlyStopping(
         monitor='val_loss',
-        patience=3,  # Professor uses patience=3
+        patience=3,  # Reference uses patience=3
         restore_best_weights=True,
         verbose=0  # Silent - no "Restoring model weights" messages
     )
 
     print(f"\n[4] Training model (max 15 epochs, early stopping patience=3)...")
-    print(f"    Using professor's architecture: 512→256→{CODING_SIZE}(linear)→256→512")
+    print(f"    Using reference architecture: 512→256→{CODING_SIZE}(linear)→256→512")
     print(f"    Training...", end='', flush=True)
 
-    # Train with professor's parameters
+    # Train with reference parameters
     history = model.fit(
         X_train_bow, X_train_bow,
-        epochs=15,  # Professor uses 15 epochs
-        batch_size=256,  # Professor uses batch_size=256
-        validation_split=0.1,  # Professor uses 0.1 split
+        epochs=15,  # Reference uses 15 epochs
+        batch_size=256,  # Reference uses batch_size=256
+        validation_split=0.1,  # Reference uses 0.1 split
         callbacks=[early_stop],
         verbose=0  # Silent training - no epoch spam
     )

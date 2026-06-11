@@ -2,7 +2,7 @@
 
 ## Task Requirements
 
-### Original Assignment
+### Original Task
 **Objective**: Experiment with various optimizers and hyperparameters for the Reuters text classification network implemented in `part-3.py`.
 
 **Specific Requirements**:

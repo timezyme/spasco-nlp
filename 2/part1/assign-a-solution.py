@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 RNN Temperature Prediction using GRU
-Assignment 2 Part A - Time Series Prediction
+Project 2 Part A - Time Series Prediction
 """
 
 import pandas as pd

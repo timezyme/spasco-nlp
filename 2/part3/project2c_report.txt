@@ -1,5 +1,5 @@
 ======================================================================
-ASSIGNMENT 2 PART C: RNN MOVIE REVIEW CLASSIFICATION REPORT
+PROJECT 2 PART C: RNN MOVIE REVIEW CLASSIFICATION REPORT
 ======================================================================
 
 Configuration:
@@ -20,5 +20,5 @@ Data Representation:
 Target accuracy (>= 75%): ACHIEVED
 
 Plot files generated:
-- /Users/spasco/Projects/Harvard/CSCI-E-89b-NLP/assignments/2/part3/movie_review_rnn_accuracy.png
-- /Users/spasco/Projects/Harvard/CSCI-E-89b-NLP/assignments/2/part3/movie_review_rnn_loss.png
+- ./2/part3/movie_review_rnn_accuracy.png
+- ./2/part3/movie_review_rnn_loss.png
