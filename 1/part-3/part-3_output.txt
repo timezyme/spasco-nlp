@@ -1,0 +1,26 @@
+PART 3 - OPTIMIZER COMPARISON
+============================================================
+Generated: 2026-06-11 15:47:02
+Versions: keras 3.14.1, tensorflow 2.21.0, scikit-learn 1.9.0
+Random seed: 42
+
+Protocol: 10 configurations, identical model (256-128-64 + BN), identical seed,
+max 25 epochs, batch size 256, early stopping on val accuracy (patience 5).
+Selection uses validation accuracy only; the single winner gets the one and only test evaluation.
+
+Rank  Configuration              Best val acc  Best epoch
+---------------------------------------------------------
+1     RMSprop lr=1e-3                  0.8280          20
+2     Adam lr=1e-3                     0.8270          22
+3     AdamW lr=1e-3 wd=1e-3            0.8250          24
+4     AdamW lr=1e-3 wd=1e-2            0.8230          20
+5     RMSprop lr=1e-3 rho=0.95         0.8220          14
+6     Nadam lr=1e-3                    0.8220          24
+7     Nadam lr=2e-3                    0.8210          10
+8     Adamax lr=2e-3                   0.8200          22
+9     Adamax lr=1e-3                   0.8010          18
+10    Adam lr=1e-4                     0.7810          25
+
+Winner: RMSprop lr=1e-3
+  Test accuracy: 0.8019
+  Test macro F1: 0.5919
