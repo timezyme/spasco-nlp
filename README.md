@@ -36,11 +36,12 @@ A collection of natural language processing implementations in Python, progressi
 - `projects/1/reuters_common.py` - Shared data/model/metrics module
 - `projects/1/part-1/`, `projects/1/part-2/`, `projects/1/part-3/` - Experiments (baseline, improved model, optimizer study)
 
-### Project 2: Text Classification Basics
-**Topics:** Movie review classification, sentiment analysis
+### Project 2: Sequence Models — Forecasting and Sentiment
+**Topics:** GRU time-series forecasting vs persistence baseline, IMDB sentiment, vocabulary-size effects, Embedding+LSTM vs bag-of-words
 **Key Files:**
-- `projects/2/3.5-classifying-movie-reviews.ipynb` - Implementation
-- `projects/2/README.md` - Lessons learned (environment setup)
+- `projects/2/README.md` - Project write-up with results
+- `projects/2/imdb_common.py` - Shared IMDB data/model module
+- `projects/2/part-1/`, `projects/2/part-2/`, `projects/2/part-3/` - Experiments (GRU forecasting, 200-word vocabulary study, LSTM)
 
 ### Project 3: Text Processing
 **Topics:** Text preprocessing, bag-of-words, feature engineering
