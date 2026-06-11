@@ -32,15 +32,15 @@ A collection of natural language processing implementations in Python, progressi
 ### Project 1: Reuters Topic Classification
 **Topics:** Multi-class text classification (46 topics), epoch selection, architecture tuning, optimizer comparison, deep vs classical baselines
 **Key Files:**
-- `1/README.md` - Project write-up with results
-- `1/reuters_common.py` - Shared data/model/metrics module
-- `1/part-1/`, `1/part-2/`, `1/part-3/` - Experiments (baseline, improved model, optimizer study)
+- `projects/1/README.md` - Project write-up with results
+- `projects/1/reuters_common.py` - Shared data/model/metrics module
+- `projects/1/part-1/`, `projects/1/part-2/`, `projects/1/part-3/` - Experiments (baseline, improved model, optimizer study)
 
 ### Project 2: Text Classification Basics
 **Topics:** Movie review classification, sentiment analysis
 **Key Files:**
-- `2/3.5-classifying-movie-reviews.ipynb` - Implementation
-- `2/README.md` - Lessons learned (environment setup)
+- `projects/2/3.5-classifying-movie-reviews.ipynb` - Implementation
+- `projects/2/README.md` - Lessons learned (environment setup)
 
 ### Project 3: Text Processing
 **Topics:** Text preprocessing, bag-of-words, feature engineering
@@ -48,16 +48,16 @@ A collection of natural language processing implementations in Python, progressi
 ### Project 4: Model Evaluation
 **Topics:** Model evaluation metrics, performance analysis
 **Key Files:**
-- `4/3.5-classifying-movie-reviews.ipynb` - Implementation
-- `4/test_accuracy_90plus.txt` - Performance results
+- `projects/4/3.5-classifying-movie-reviews.ipynb` - Implementation
+- `projects/4/test_accuracy_90plus.txt` - Performance results
 
 ### Project 5: Character Embeddings & Autoencoders
 **Topics:** Character-level embeddings, sequence modeling, autoencoders
 **Key Files:**
-- `5/problem1/` - Character embedding solutions
-- `5/problem2/` - Text generation with RNNs
-- `5/problem3/` - Autoencoder for IMDb reviews
-- `5/PROBLEM3_SOLUTION_MEMORY.md` - Technical documentation
+- `projects/5/problem1/` - Character embedding solutions
+- `projects/5/problem2/` - Text generation with RNNs
+- `projects/5/problem3/` - Autoencoder for IMDb reviews
+- `projects/5/PROBLEM3_SOLUTION_MEMORY.md` - Technical documentation
 
 **Highlights:**
 - Character-level embedding with unknown token handling
@@ -67,21 +67,21 @@ A collection of natural language processing implementations in Python, progressi
 ### Project 6: Topic Modeling
 **Topics:** LDA topic modeling, deep neural network architectures
 **Key Files:**
-- `6/problem-1-2-3/` - Problem implementations
+- `projects/6/problem-1-2-3/` - Problem implementations
 
 ### Project 7: R-based Analysis
 **Topics:** R programming for NLP, statistical analysis
 **Key Files:**
-- `7/Assign7.Rmd` - R Markdown source
-- `7/Assign7.html` - HTML report
-- `7/data/` - Analysis datasets
+- `projects/7/Assign7.Rmd` - R Markdown source
+- `projects/7/Assign7.html` - HTML report
+- `projects/7/data/` - Analysis datasets
 
 ### Project 8: Text Classification with Machine Learning
 **Topics:** SMS spam classification, ML algorithm comparison, neural networks
 **Key Files:**
-- `8/Assign8.ipynb` - Main implementation notebook
-- `8/data/Spam_SMS.csv` - SMS spam dataset
-- `8/README.md` - Detailed problem requirements
+- `projects/8/Assign8.ipynb` - Main implementation notebook
+- `projects/8/data/Spam_SMS.csv` - SMS spam dataset
+- `projects/8/README.md` - Detailed problem requirements
 
 **Highlights:**
 - Naive Bayes, KNN, Logistic Regression, SVM, and Random Forest comparison with TF-IDF features
@@ -90,8 +90,8 @@ A collection of natural language processing implementations in Python, progressi
 ### Project 9: NER & Document Classification
 **Topics:** Named entity recognition with spaCy, news classification
 **Key Files:**
-- `9/Assign9.ipynb` - Main implementation notebook
-- `9/data/` - News dataset
+- `projects/9/Assign9.ipynb` - Main implementation notebook
+- `projects/9/data/` - News dataset
 
 ### Final Project
 **Topics:** Knowledge-graph-based question answering over research papers
@@ -106,7 +106,7 @@ A collection of natural language processing implementations in Python, progressi
 spasco-nlp/
 ├── README.md                     # This file
 ├── venv/                         # Python virtual environment (create locally, gitignored)
-├── 1-9/                          # Project directories
+├── projects/                     # Numbered project directories (1-9)
 │   ├── *.ipynb                   # Jupyter notebooks
 │   ├── *.docx                    # Write-ups
 │   └── README.md                 # Project-specific docs

@@ -153,8 +153,8 @@ def main():
     ax2.grid(True, alpha=0.3)
 
     plt.tight_layout()
-    plt.savefig('5/problem3_loss_curves.png', dpi=150, bbox_inches='tight')
-    print("✓ Saved: 5/problem3_loss_curves.png")
+    plt.savefig('projects/5/problem3_loss_curves.png', dpi=150, bbox_inches='tight')
+    print("✓ Saved: projects/5/problem3_loss_curves.png")
     plt.close()
 
     # ============================================================================
@@ -228,7 +228,7 @@ def main():
 
 if __name__ == "__main__":
     # Redirect stdout to output file
-    output_file = '5/problem3_output.txt'
+    output_file = 'projects/5/problem3_output.txt'
 
     with open(output_file, 'w', encoding='utf-8') as f:
         # Save original stdout

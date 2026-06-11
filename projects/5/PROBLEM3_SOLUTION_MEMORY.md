@@ -48,19 +48,19 @@ words = [index_to_word.get(int(idx), '<UNK>') for idx in top_indices]
 ## 📁 FILE STRUCTURE
 
 ### Working Solution
-- **`5/problem3/problem3-fix.py`** - The corrected implementation
+- **`projects/5/problem3/problem3-fix.py`** - The corrected implementation
   - Uses the reference architecture
   - Tests one model at a time (iterative)
   - Outputs to text file only (no JSON/keras saves)
 
 ### Output Files
-- **`5/problem3/problem3-fix_output.txt`** - Text output (KEEP THIS)
-- ~~`5/problem3/problem3-fix_results.json`~~ - JSON results (REMOVED)
+- **`projects/5/problem3/problem3-fix_output.txt`** - Text output (KEEP THIS)
+- ~~`projects/5/problem3/problem3-fix_results.json`~~ - JSON results (REMOVED)
 - ~~`5/model_*.keras`~~ - 126MB model files (REMOVED)
 
 ### Original Files (Has Bugs)
-- `5/problem3.py` - Original implementation with bugs
-- `5/problem3_output.txt` - Original output
+- `projects/5/problem3.py` - Original implementation with bugs
+- `projects/5/problem3_output.txt` - Original output
 
 ## 🔑 KEY INSIGHTS
 
@@ -98,9 +98,9 @@ PYTHON=./venv/bin/python
 # Options: 4, 8, 16, 32, 64
 
 # Run the training
-$PYTHON 5/problem3/problem3-fix.py
+$PYTHON projects/5/problem3/problem3-fix.py
 
-# Output appears in: 5/problem3/problem3-fix_output.txt
+# Output appears in: projects/5/problem3/problem3-fix_output.txt
 ```
 
 ## 📝 ANSWER TO QUESTION [6]
@@ -123,7 +123,7 @@ This proves that despite using 10,000 possible words, movie reviews fundamentall
 
 ## 📚 REFERENCES
 
-- Problem statement: `5/problem3/problem3.txt`
+- Problem statement: `projects/5/problem3/problem3.txt`
 
 ---
 **Memory saved:** 2025-10-17 12:45 PST

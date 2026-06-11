@@ -25,7 +25,7 @@ Achieve **test accuracy ≥ 90%** on IMDB movie review classification using TF-I
 - Must save plot as image file
 
 ## Reference Implementation
-- Baseline notebook: `4/3.5-classifying-movie-reviews.ipynb`
+- Baseline notebook: `projects/4/3.5-classifying-movie-reviews.ipynb`
 - Uses simple bag-of-words vectorization
 - Achieves ~88% test accuracy
 - Architecture: 16→16→1 with dropout
@@ -47,7 +47,7 @@ Achieve **test accuracy ≥ 90%** on IMDB movie review classification using TF-I
 - **Result:** **88.99% test accuracy** (ran in background, completed successfully)
 - **Training:** 11 epochs, early stopping at epoch 5, validation peaked at 89.31%
 - **Issue:** Overfitting (95% train vs 89% val), trigrams likely too sparse
-- **File:** `4/part2/part2_90plus.py`
+- **File:** `projects/4/part2/part2_90plus.py`
 
 ### Pattern Observed Across All Attempts
 - All attempts showed **overfitting** (training accuracy >> validation accuracy)
@@ -94,10 +94,10 @@ Instead of guessing, test incrementally:
 5. **Regularization Sweep:** Fine-tune dropout and L2 once architecture is set
 
 ## Files
-- **Current model:** `4/part2/part2_90plus.py`
-- **Reference notebook:** `4/3.5-classifying-movie-reviews.ipynb`
-- **Output plot:** `4/part2/plot-part2-90plus.png`
-- **Results:** `4/part2/test_accuracy_90plus.txt`
+- **Current model:** `projects/4/part2/part2_90plus.py`
+- **Reference notebook:** `projects/4/3.5-classifying-movie-reviews.ipynb`
+- **Output plot:** `projects/4/part2/plot-part2-90plus.png`
+- **Results:** `projects/4/part2/test_accuracy_90plus.txt`
 
 ## Environment
 - Python: `./venv/bin/python`

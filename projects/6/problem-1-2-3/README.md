@@ -53,7 +53,7 @@ The project required:
 ## Project Structure
 
 ```
-6/problem1/
+projects/6/problem1/
 ├── README.md                    # This file
 ├── lda_topic_modeling.py        # Main implementation
 ├── article-sections.json        # Input: research paper sections
@@ -72,7 +72,7 @@ The project required:
 
 1. **Create and activate virtual environment:**
    ```bash
-   cd 6/problem1
+   cd projects/6/problem1
    python3.12 -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```

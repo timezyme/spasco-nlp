@@ -20,5 +20,5 @@ Data Representation:
 Target accuracy (>= 75%): ACHIEVED
 
 Plot files generated:
-- ./2/part3/movie_review_rnn_accuracy.png
-- ./2/part3/movie_review_rnn_loss.png
+- ./projects/2/part3/movie_review_rnn_accuracy.png
+- ./projects/2/part3/movie_review_rnn_loss.png

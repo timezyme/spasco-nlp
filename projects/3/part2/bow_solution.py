@@ -432,7 +432,7 @@ All requirements successfully fulfilled:
 ☑ Part (c): OOV key identified (index = 0)
 
 Solution file: bow_solution.py
-Location: ./3/part2/
+Location: ./projects/3/part2/
 {"="*70}
 """
 

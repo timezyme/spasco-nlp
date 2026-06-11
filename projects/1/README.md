@@ -7,7 +7,7 @@ The dataset is heavily imbalanced (two topics cover 57% of the test set), so res
 ## Layout
 
 ```
-1/
+projects/1/
 ├── reuters_common.py     # shared data pipeline, model builders, metrics, plots
 ├── part-1/               # baseline model, epoch selection on validation
 ├── part-2/               # improved architecture vs classical baseline
@@ -22,9 +22,9 @@ Each part is a standalone script that writes `part-N_output.txt` (full metrics, 
 ```bash
 python3.12 -m venv venv   # from the repo root; 3.12 for TensorFlow wheel support
 ./venv/bin/pip install tensorflow keras scikit-learn matplotlib
-./venv/bin/python 1/part-1/part-1.py
-./venv/bin/python 1/part-2/part-2.py
-./venv/bin/python 1/part-3/part-3.py
+./venv/bin/python projects/1/part-1/part-1.py
+./venv/bin/python projects/1/part-2/part-2.py
+./venv/bin/python projects/1/part-3/part-3.py
 ```
 
 Everything is seeded (42); a full re-run takes about 10 minutes on CPU.
@@ -71,7 +71,7 @@ Ten configurations across five optimizer families (RMSprop, Adam, AdamW, Adamax,
 | 1 | RMSprop lr=1e-3 | 0.828 |
 | 2 | Adam lr=1e-3 | 0.827 |
 | 3 | AdamW lr=1e-3 wd=1e-3 | 0.825 |
-| ... | (all lr≈1e-3 configs) | 0.820–0.828 |
+| ... | (all lr~1e-3 configs) | 0.820–0.828 |
 | 9 | Adamax lr=1e-3 | 0.801 |
 | 10 | Adam lr=1e-4 | 0.781 |
 
@@ -83,7 +83,7 @@ Winner on the single test evaluation: **RMSprop lr=1e-3 — test accuracy 0.802,
 
 1. **The representation is the ceiling, not the classifier.** Multi-hot bag-of-words caps everything near 80% test accuracy: a 2-layer MLP, a 3-layer batch-norm network, ten optimizer variants, and a linear TF-IDF model all land within ~2 points of each other.
 2. **With early stopping, the small baseline matches the bigger network.** The 256-128-64 architecture trains more smoothly and edges ahead on macro-F1, but buys essentially no accuracy. Capacity was not the bottleneck.
-3. **Learning rate matters more than optimizer family.** Eight configurations at lr≈1e-3 span 0.8 points of validation accuracy; dropping Adam to lr=1e-4 costs 4.6 points — a larger effect than any family swap.
+3. **Learning rate matters more than optimizer family.** Eight configurations at lr~1e-3 span 0.8 points of validation accuracy; dropping Adam to lr=1e-4 costs 4.6 points — a larger effect than any family swap.
 4. **Accuracy flatters an imbalanced problem.** Macro-F1 (0.54–0.59) tells the truer story: rare topics are mostly sacrificed, and the regularized linear model sacrifices them hardest.
 5. **A classical baseline is two lines and two seconds.** TF-IDF + logistic regression reaches 78.6% — within 1.7 points of the best deep model here. Worth running before reaching for anything deeper.
 

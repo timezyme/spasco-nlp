@@ -401,13 +401,13 @@ def main():
     report_text, vectors_data = generate_report(model, target_words, total_sentences, total_tokens)
 
     # Save text report
-    report_filename = '4/part3/word2vec_report.txt'
+    report_filename = 'projects/4/part3/word2vec_report.txt'
     with open(report_filename, 'w') as f:
         f.write(report_text)
     print(f"Report saved to: {report_filename}")
 
     # Save JSON vectors
-    json_filename = '4/part3/word_vectors.json'
+    json_filename = 'projects/4/part3/word_vectors.json'
     with open(json_filename, 'w') as f:
         json.dump(vectors_data, f, indent=2)
     print(f"Vector data saved to: {json_filename}")

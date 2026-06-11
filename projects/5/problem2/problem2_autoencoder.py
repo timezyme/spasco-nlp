@@ -46,7 +46,7 @@ plt.title(f'Loss Curves for Autoencoder with {encoding_dim} Codings')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
-plt.savefig(f'./5/problem2/problem2_loss_curves_{encoding_dim}.png')
+plt.savefig(f'./projects/5/problem2/problem2_loss_curves_{encoding_dim}.png')
 plt.close()
 
 # Decode reviews back to text
