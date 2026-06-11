@@ -16,7 +16,7 @@ IMPROVEMENTS FROM CODE REVIEW:
 
 USAGE:
 1. Set CODING_SIZE below (try: 64, 32, 16, 8, 4)
-2. Run: python 5/problem3/problem3-claude-fix.py
+2. Run: python 5/problem3/problem3-fix.py
 3. Results accumulate in output text file
 4. Change CODING_SIZE and run again
 """
@@ -248,7 +248,7 @@ def main():
 
 if __name__ == "__main__":
     # Redirect stdout to file (append mode to accumulate)
-    output_file = '5/problem3/problem3-claude-fix_output.txt'
+    output_file = '5/problem3/problem3-fix_output.txt'
 
     with open(output_file, 'a', encoding='utf-8') as f:
         f.write(f"\n{'='*80}\n")

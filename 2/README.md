@@ -55,7 +55,7 @@ ls -la | grep -E "venv|env"
 grep -r "import keras" --include="*.py"
 
 # 4. Read project documentation
-cat CLAUDE.md
+cat README.md
 ```
 
 ## Prevention Guidelines for Future Work
@@ -63,7 +63,7 @@ cat CLAUDE.md
 ### 🟢 **Always Start With:**
 1. **Environment Discovery**: Check for venv/, .venv/, env/ directories
 2. **Pattern Recognition**: Examine existing code for import patterns
-3. **Documentation Check**: Read CLAUDE.md and README files
+3. **Documentation Check**: Read the project README files
 4. **Test in Isolation**: Verify imports work before writing code
 
 ### 🔴 **Red Flags to Recognize:**
@@ -74,7 +74,7 @@ cat CLAUDE.md
 - Import patterns differing from existing project code
 
 ### 📝 **Documentation Requirements:**
-- Update CLAUDE.md immediately when environment issues resolved
+- Update project docs immediately when environment issues resolved
 - Document specific Python interpreter path
 - Note any special import requirements
 - Include working example commands

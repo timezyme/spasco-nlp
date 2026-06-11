@@ -48,14 +48,14 @@ words = [index_to_word.get(int(idx), '<UNK>') for idx in top_indices]
 ## 📁 FILE STRUCTURE
 
 ### Working Solution
-- **`5/problem3-claude-fix.py`** - The corrected implementation
+- **`5/problem3/problem3-fix.py`** - The corrected implementation
   - Uses the reference architecture
   - Tests one model at a time (iterative)
   - Outputs to text file only (no JSON/keras saves)
 
 ### Output Files
-- **`5/problem3-claude-fix_output.txt`** - Text output (KEEP THIS)
-- ~~`5/problem3-claude-fix_results.json`~~ - JSON results (REMOVED)
+- **`5/problem3/problem3-fix_output.txt`** - Text output (KEEP THIS)
+- ~~`5/problem3/problem3-fix_results.json`~~ - JSON results (REMOVED)
 - ~~`5/model_*.keras`~~ - 126MB model files (REMOVED)
 
 ### Original Files (Has Bugs)
@@ -94,13 +94,13 @@ words = [index_to_word.get(int(idx), '<UNK>') for idx in top_indices]
 # Use project virtual environment
 PYTHON=./venv/bin/python
 
-# Edit CODING_SIZE in problem3-claude-fix.py (line 41)
+# Edit CODING_SIZE in problem3-fix.py (line 41)
 # Options: 4, 8, 16, 32, 64
 
 # Run the training
-$PYTHON 5/problem3-claude-fix.py
+$PYTHON 5/problem3/problem3-fix.py
 
-# Output appears in: 5/problem3-claude-fix_output.txt
+# Output appears in: 5/problem3/problem3-fix_output.txt
 ```
 
 ## 📝 ANSWER TO QUESTION [6]
