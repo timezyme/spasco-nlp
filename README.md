@@ -10,7 +10,7 @@ A collection of natural language processing implementations in Python, progressi
 - **Location:** `venv/` (project root, create locally — gitignored)
 - **Setup:**
   ```bash
-  python3 -m venv venv
+  python3.12 -m venv venv   # 3.12: newest Python with TensorFlow wheel support
   source venv/bin/activate
   pip install nltk spacy scikit-learn tensorflow keras pandas matplotlib seaborn jupyter
   python -m spacy download en_core_web_sm
@@ -29,10 +29,12 @@ A collection of natural language processing implementations in Python, progressi
 
 ## Projects
 
-### Project 1: Foundations
-**Topics:** Reuters text classification with neural networks
+### Project 1: Reuters Topic Classification
+**Topics:** Multi-class text classification (46 topics), epoch selection, architecture tuning, optimizer comparison, deep vs classical baselines
 **Key Files:**
-- `1/assign1-question1.ipynb` - Main notebook
+- `1/README.md` - Project write-up with results
+- `1/reuters_common.py` - Shared data/model/metrics module
+- `1/part-1/`, `1/part-2/`, `1/part-3/` - Experiments (baseline, improved model, optimizer study)
 
 ### Project 2: Text Classification Basics
 **Topics:** Movie review classification, sentiment analysis
@@ -103,7 +105,6 @@ A collection of natural language processing implementations in Python, progressi
 ```
 spasco-nlp/
 ├── README.md                     # This file
-├── CLAUDE.md                     # AI assistant configuration (local, gitignored)
 ├── venv/                         # Python virtual environment (create locally, gitignored)
 ├── 1-9/                          # Project directories
 │   ├── *.ipynb                   # Jupyter notebooks
@@ -164,7 +165,7 @@ spasco-nlp/
 ### Development Tools
 - **Jupyter Notebook:** Interactive development
 - **Git:** Version control on feature branches
-- **VS Code:** Primary editor with Claude Code integration
+- **VS Code:** Primary editor
 
 ---
 
