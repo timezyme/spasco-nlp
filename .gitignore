@@ -43,5 +43,8 @@ CLAUDE.md
 # Scratch code
 fun/
 
+# Large datasets fetched on demand (see projects/2/part-1)
+projects/2/part-1/jena_climate_2009_2016.csv
+
 # Local working plans (not part of the portfolio)
 docs/plans/
