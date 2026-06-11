@@ -8,7 +8,7 @@ The primary issue was a segmentation fault when importing Keras, caused by using
 ### 1. ❌ **Used System Python Instead of Project Virtual Environment**
 **Mistake**: Ran code with `/opt/anaconda3/bin/python3` (system/conda base Python)
 **Assumption**: Any Python 3.13 installation would work
-**Reality**: Project requires specific venv at `/assignments/venv/bin/python`
+**Reality**: Project requires the specific venv at `venv/bin/python` (project root)
 **Impact**: Segmentation fault (exit code 139) on `import keras`
 
 ### 2. ❌ **Failed to Discover Existing Virtual Environment**
@@ -30,9 +30,9 @@ The primary issue was a segmentation fault when importing Keras, caused by using
 **Impact**: Nearly created unnecessary environment pollution
 
 ### 5. ❌ **Ignored Existing Working Code**
-**Mistake**: Didn't examine Assignment 1's successful Keras usage
-**Assumption**: Each assignment might have different requirements
-**Reality**: Assignment 1 already demonstrated correct import patterns
+**Mistake**: Didn't examine Project 1's successful Keras usage
+**Assumption**: Each project might have different requirements
+**Reality**: Project 1 already demonstrated correct import patterns
 **Impact**: Delayed problem resolution by not learning from existing code
 
 ## Root Cause Analysis
@@ -82,7 +82,7 @@ cat CLAUDE.md
 ## Specific Project Requirements
 
 For this project specifically:
-- **Python**: `/Users/spasco/Projects/Harvard/CSCI-E-89b-NLP/assignments/venv/bin/python`
+- **Python**: `venv/bin/python` (project-root virtual environment)
 - **Keras Import**: `from keras import models, layers, optimizers`
 - **NOT**: `from tensorflow.keras import ...`
 - **Environment**: Project venv, NOT conda base or system Python

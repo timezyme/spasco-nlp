@@ -1,18 +1,20 @@
-# CSCI-E-89b Introduction to Natural Language Processing - Assignments
+# NLP-ML projects
 
-## Project Overview
-
-This repository contains coursework for Harvard Extension School's CSCI-E-89b Introduction to Natural Language Processing course. The assignments progress from foundational NLP concepts to advanced machine learning and deep learning applications.
+A collection of natural language processing implementations in Python, progressing from text-processing fundamentals to machine learning and deep learning applications.
 
 ---
 
 ## Environment Setup
 
 ### Python Virtual Environment
-- **Location:** `venv/` (project root)
-- **Python Version:** 3.13.7
-- **Activation:** `source venv/bin/activate`
-- **Required for:** All assignments (especially assignments 2-8)
+- **Location:** `venv/` (project root, create locally — gitignored)
+- **Setup:**
+  ```bash
+  python3 -m venv venv
+  source venv/bin/activate
+  pip install nltk spacy scikit-learn tensorflow keras pandas matplotlib seaborn jupyter
+  python -m spacy download en_core_web_sm
+  ```
 
 ### Key Libraries
 - **Deep Learning:** Keras 3.x (standalone), TensorFlow
@@ -25,52 +27,31 @@ This repository contains coursework for Harvard Extension School's CSCI-E-89b In
 
 ---
 
-## Assignment Progress
+## Projects
 
-### ✅ Assignment 1: Foundations
-**Status:** Completed
-**Topics:** Basic NLP concepts, text processing fundamentals
+### Project 1: Foundations
+**Topics:** Reuters text classification with neural networks
 **Key Files:**
 - `1/assign1-question1.ipynb` - Main notebook
-- `1/assign1-stephen-pasco.docx` - Final deliverable
 
----
-
-### ✅ Assignment 2: Text Classification Basics
-**Status:** Completed
+### Project 2: Text Classification Basics
 **Topics:** Movie review classification, sentiment analysis
 **Key Files:**
 - `2/3.5-classifying-movie-reviews.ipynb` - Implementation
-- `2/Assign2-StephenPasco.docx` - Final deliverable
 - `2/README.md` - Lessons learned (environment setup)
 
-**Critical Learning:** Environment setup and Keras import patterns
+### Project 3: Text Processing
+**Topics:** Text preprocessing, bag-of-words, feature engineering
 
----
-
-### ✅ Assignment 3: Advanced Text Processing
-**Status:** Completed
-**Topics:** Text preprocessing, feature engineering
-**Key Files:**
-- `3/CSCI_S-89B_Assignment3.docx` - Assignment instructions
-
----
-
-### ✅ Assignment 4: Model Evaluation
-**Status:** Completed
+### Project 4: Model Evaluation
 **Topics:** Model evaluation metrics, performance analysis
 **Key Files:**
 - `4/3.5-classifying-movie-reviews.ipynb` - Implementation
-- `4/StephenPasco-Assign4.docx` - Final deliverable
-- `4/test_accuracy_90plus.txt` - Performance achievements
+- `4/test_accuracy_90plus.txt` - Performance results
 
----
-
-### ✅ Assignment 5: Character Embeddings & Autoencoders
-**Status:** Completed
+### Project 5: Character Embeddings & Autoencoders
 **Topics:** Character-level embeddings, sequence modeling, autoencoders
 **Key Files:**
-- `5/StephenPasco-Assignment5.ipynb` - Main notebook
 - `5/problem1/` - Character embedding solutions
 - `5/problem2/` - Text generation with RNNs
 - `5/problem3/` - Autoencoder for IMDb reviews
@@ -81,60 +62,39 @@ This repository contains coursework for Harvard Extension School's CSCI-E-89b In
 - LSTM-based character prediction models
 - Autoencoder architecture for text representation
 
----
-
-### ✅ Assignment 6: Advanced Neural Networks
-**Status:** Completed
-**Topics:** Deep neural network architectures
+### Project 6: Topic Modeling
+**Topics:** LDA topic modeling, deep neural network architectures
 **Key Files:**
 - `6/problem-1-2-3/` - Problem implementations
-- `6/Assign6-StephenPasco.docx` - Final deliverable
 
----
-
-### ✅ Assignment 7: R-based Analysis
-**Status:** Completed
+### Project 7: R-based Analysis
 **Topics:** R programming for NLP, statistical analysis
 **Key Files:**
 - `7/Assign7.Rmd` - R Markdown source
 - `7/Assign7.html` - HTML report
-- `7/Assign7-StephenPasco.docx` - Final deliverable
 - `7/data/` - Analysis datasets
 
----
-
-### 🔄 Assignment 8: Text Classification with Machine Learning
-**Status:** In Progress - Problem 1 Complete
+### Project 8: Text Classification with Machine Learning
 **Topics:** SMS spam classification, ML algorithm comparison, neural networks
-
-#### Completed ✅
-**Problem 1: Traditional ML Classifiers** (All parts a-g)
-- Data preparation with TF-IDF vectorization
-- Naive Bayes, KNN, Logistic Regression implementations
-- SVM with hyperparameter tuning (kernel, C parameter)
-- Random Forest with parameter analysis
-- Comprehensive performance comparison visualizations
-
-**Recent Commits:**
-- `2a58cb2` - Problem 1(g): Model performance visualization and analysis
-- `f15b7c6` - Problem 1(f): Random Forest classifier
-- `f889092` - Problem 1(e): SVM with grid search
-- `52f6e1b` - Problem 1(d): Logistic Regression
-- `1fe84f4` - Problem 1(c): KNN with parameter tuning
-
-#### In Progress 🔄
-**Problem 2: Neural Network Classifier**
-- Target: Test accuracy ≥ 0.98
-- Custom preprocessing and feature engineering required
-- Will include updated comparison with Problem 1 models
-
 **Key Files:**
 - `8/Assign8.ipynb` - Main implementation notebook
 - `8/data/Spam_SMS.csv` - SMS spam dataset
-- `8/README.md` - Detailed problem requirements and progress
-- `8/TA-notes/` - Course materials and tutorials
+- `8/README.md` - Detailed problem requirements
 
-**Branch:** `problem-8`
+**Highlights:**
+- Naive Bayes, KNN, Logistic Regression, SVM, and Random Forest comparison with TF-IDF features
+- Neural network classifier reaching ≥ 0.98 test accuracy
+
+### Project 9: NER & Document Classification
+**Topics:** Named entity recognition with spaCy, news classification
+**Key Files:**
+- `9/Assign9.ipynb` - Main implementation notebook
+- `9/data/` - News dataset
+
+### Final Project
+**Topics:** Knowledge-graph-based question answering over research papers
+**Key Files:**
+- `final-project/final-project-draft.md` - Design draft
 
 ---
 
@@ -145,10 +105,10 @@ spasco-nlp/
 ├── README.md                     # This file
 ├── CLAUDE.md                     # AI assistant configuration (local, gitignored)
 ├── venv/                         # Python virtual environment (create locally, gitignored)
-├── 1-9/                          # Assignment directories
+├── 1-9/                          # Project directories
 │   ├── *.ipynb                   # Jupyter notebooks
-│   ├── *.docx                    # Assignment docs & deliverables
-│   └── README.md                 # Assignment-specific docs
+│   ├── *.docx                    # Specs & write-ups
+│   └── README.md                 # Project-specific docs
 ├── final-project/                # Final project materials
 └── guides/                       # Reference materials
 ```
@@ -157,7 +117,6 @@ spasco-nlp/
 
 ## Development Workflow
 
-### Standard Assignment Process
 1. **Setup**: Activate venv - `source venv/bin/activate`
 2. **Branch**: Create feature branch - `git checkout -b problem-X`
 3. **Implement**: Work in Jupyter notebook
@@ -166,28 +125,22 @@ spasco-nlp/
 6. **Commit**: Incremental commits with descriptive messages
 7. **Merge**: Merge to main when complete
 
-### Current Branch
-- **Branch:** `problem-8`
-- **Working on:** Assignment 8, Problem 2 (Neural Network)
-- **Base branch:** `main`
-
 ---
 
 ## Key Learnings & Best Practices
 
 ### Environment Management
-✅ Always use project venv (`venv/bin/python`)
-✅ Verify environment before importing libraries
-✅ Check for existing venv directories before creating new ones
-❌ Never use system Python or conda base for project work
+- Always use the project venv (`venv/bin/python`)
+- Verify the environment before importing libraries
+- Check for existing venv directories before creating new ones
+- Never use system Python or conda base for project work
 
 ### Import Patterns
-✅ Keras 3.x: `from keras import models, layers`
-❌ Avoid: `from tensorflow.keras import ...` (compatibility issues)
+- Keras 3.x: `from keras import models, layers`
+- Avoid: `from tensorflow.keras import ...` (compatibility issues)
 
 ### Code Organization
 - Jupyter notebooks for primary implementations
-- `.docx` files for final deliverables
 - `README.md` for documentation and progress tracking
 - Separate problem directories when multiple problems exist
 
@@ -217,47 +170,9 @@ spasco-nlp/
 
 ## Resources
 
-### Course Materials
-Each assignment directory contains:
-- `TA-notes/` - Teaching assistant tutorials and examples
-- `data/` - Datasets and training materials
-- Assignment instructions (`.docx` files)
-
-### Reference Guides
-Located in `guides/`:
+Reference materials live in `guides/`:
 - LLMs in the GitHub Ecosystem
 - Software Architecture Patterns
 - NLP-ML prompt engineering
 
----
-
-## Contact & Attribution
-
-**Course:** CSCI-E-89b Introduction to Natural Language Processing
-**Institution:** Harvard
-**Student:** Stephen Pasco
-**Academic Term:** Fall 2025
-
----
-
-## Recent Updates
-
-**Date:** 2025-11-05
-**Last Updated By:** Claude Code (via /sc:index)
-
-**Recent Changes:**
-- ✅ Completed Assignment 8, Problem 1 (parts a-g)
-- 🔄 Started Assignment 8, Problem 2 (neural network implementation)
-- 📝 Added comprehensive progress tracking and documentation
-- 🔧 Standardized README format across assignments
-
-**Next Steps:**
-1. Complete Assignment 8, Problem 2 (neural network with ≥0.98 accuracy)
-2. Generate comparison visualizations with all models
-3. Finalize Assignment 8 deliverable document
-4. Merge `problem-8` branch to main
-
----
-
-**Generated with:** Claude Code /sc:index command
-**Last Documentation Review:** 2025-11-05
+Several project directories also include reference notebooks and datasets (`docs/`, `data/`, and notes directories).

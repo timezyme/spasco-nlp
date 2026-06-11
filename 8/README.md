@@ -1,8 +1,8 @@
-# Assignment 8: Text Classification with Machine Learning
+# Project 8: Text Classification with Machine Learning
 
 ## Overview
 
-Assignment 8 focuses on SMS spam classification using various machine learning algorithms and neural networks. Students compare traditional ML classifiers (Naive Bayes, KNN, Logistic Regression, SVM, Random Forest) with neural network approaches to understand model characteristics and performance trade-offs.
+This project covers SMS spam classification using various machine learning algorithms and neural networks. It compares traditional ML classifiers (Naive Bayes, KNN, Logistic Regression, SVM, Random Forest) with neural network approaches to understand model characteristics and performance trade-offs.
 
 ---
 
