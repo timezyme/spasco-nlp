@@ -49,11 +49,11 @@ A collection of natural language processing implementations in Python, progressi
 - `projects/3/README.md` - Project write-up with results
 - `projects/3/part-1/`, `projects/3/part-2/`, `projects/3/part-3/` - Experiments (library comparison, BoW, CNN study)
 
-### Project 4: Model Evaluation
-**Topics:** Model evaluation metrics, performance analysis
+### Project 4: TF-IDF Representations & Word Embeddings
+**Topics:** TF-IDF vocabulary transfer and OOV behavior, IMDB sentiment with TF-IDF n-grams (90% test-accuracy target), word2vec on Shakespeare (CBOW vs skip-gram)
 **Key Files:**
-- `projects/4/3.5-classifying-movie-reviews.ipynb` - Implementation
-- `projects/4/test_accuracy_90plus.txt` - Performance results
+- `projects/4/README.md` - Project write-up with results
+- `projects/4/part-1/`, `projects/4/part-2/`, `projects/4/part-3/` - Experiments (vocabulary transfer, n-gram sentiment, word embeddings)
 
 ### Project 5: Character Embeddings & Autoencoders
 **Topics:** Character-level embeddings, sequence modeling, autoencoders
