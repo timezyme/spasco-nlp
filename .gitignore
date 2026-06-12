@@ -48,3 +48,7 @@ projects/2/part-1/jena_climate_2009_2016.csv
 
 # Local working plans (not part of the portfolio)
 docs/plans/
+
+# Machine-generated codemaps and reports (hooks regenerate these; keep untracked)
+docs/CODEMAPS/
+.reports/
