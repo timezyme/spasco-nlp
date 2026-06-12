@@ -1,0 +1,67 @@
+PART 1 - TF-IDF VOCABULARY TRANSFER (LARGE -> SMALL TEXT)
+============================================================
+Generated: 2026-06-11 21:21:50
+Versions: nltk 3.9.4, scikit-learn 1.9.0
+Deterministic run: no randomness involved
+
+Documents: large.md (16480 chars) -> vectorizer; small.md (2102 chars) -> transformed
+
+(a) NLTK preprocessing (lowercase, alphabetic only, word_tokenize,
+POS-aware WordNet lemmatization) applied to both texts:
+  Large text: 2275 tokens, 603 unique lemmas
+  Small text: 300 tokens, 170 unique lemmas
+
+First 30 processed tokens of the small text:
+  e overall training recipe large scale pretraining similar to previous
+  vla method we construct a large scale dataset of over
+  k trajectory by combine diverse open source datasets such a
+
+(b) TF-IDF fit on the large text, applied to the small text.
+  The large text becomes 23 pseudo-documents of 100 tokens each, because IDF
+  needs document frequencies; a single document would make every IDF identical.
+  Vocabulary size: 500 (max_features=500)
+  Small-text representation: shape (1, 500), 107 non-zero entries,
+  L2 norm 1.000000 (sklearn normalizes each vector to unit length).
+
+  Top features with and without stop-word filtering:
+No stop-word filter          stop_words=english          
+---------------------------------------------------------
+training (0.402)             training (0.456)            
+in (0.244)                   loss (0.250)                
+loss (0.220)                 post (0.200)                
+we (0.207)                   datasets (0.200)            
+to (0.191)                   modality (0.170)            
+datasets (0.176)             generation (0.170)          
+post (0.176)                 objective (0.166)           
+be (0.170)                   iii (0.166)                 
+modality (0.150)             noise (0.166)               
+generation (0.150)           input (0.160)               
+
+  Without filtering, function words (in, we, to) dominate even under
+  IDF, because 23 short chunks of one paper give them only mildly
+  deflated weights; filtering moves content terms (training, loss,
+  modality) to the top. Both vectorizers transfer identically; only
+  the vocabulary differs.
+
+(c) What transferred from the large text into the small text's vector:
+  1. The vocabulary: all 500 feature columns come from the large text; the small
+     text cannot introduce columns of its own.
+  2. The IDF weights: each column's idf_ was computed from document
+     frequencies in the large-text chunks, so the large text decides
+     which words count as distinctive.
+  3. The preprocessing contract: the same lowercase/token/lemma
+     pipeline must be applied, or tokens miss the vocabulary.
+  4. The normalization scheme: L2 unit length, inherited from the
+     fitted transformer's configuration.
+
+(d) New words in the small text:
+  44 unique lemmas of the small text never occur in the large text.
+  0 of them made it into the vectorizer's vocabulary; scikit-learn drops the rest
+  silently. No error, no warning, no <OOV> slot; transform() simply
+  skips tokens absent from vocabulary_, so every new word contributes
+  zero to the vector. Compare project 3 part 2, where a hand-rolled
+  bag-of-words reserved index 0 and counted the same kind of words
+  explicitly (145 OOV occurrences there). sklearn's choice keeps the
+  feature space fixed but makes vocabulary mismatch invisible unless
+  you measure it, as done here.
+  Sample new words: adapt, additionally, all, appendix, between, combine, customized, dataset, ddim, ddpm
