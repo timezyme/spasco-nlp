@@ -43,8 +43,11 @@ A collection of natural language processing implementations in Python, progressi
 - `projects/2/imdb_common.py` - Shared IMDB data/model module
 - `projects/2/part-1/`, `projects/2/part-2/`, `projects/2/part-3/` - Experiments (GRU forecasting, 200-word vocabulary study, LSTM)
 
-### Project 3: Text Processing
-**Topics:** Text preprocessing, bag-of-words, feature engineering
+### Project 3: Text Processing Fundamentals
+**Topics:** NLTK vs spaCy pipeline comparison, bag-of-words with OOV handling, CNN baseline vs regularized variant on MNIST
+**Key Files:**
+- `projects/3/README.md` - Project write-up with results
+- `projects/3/part-1/`, `projects/3/part-2/`, `projects/3/part-3/` - Experiments (library comparison, BoW, CNN study)
 
 ### Project 4: Model Evaluation
 **Topics:** Model evaluation metrics, performance analysis
