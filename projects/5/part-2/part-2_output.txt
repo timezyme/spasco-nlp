@@ -1,0 +1,38 @@
+PART 2 - UNDERCOMPLETE AUTOENCODER ON MNIST
+============================================================
+Generated: 2026-06-12 17:15:42
+Versions: keras 3.14.1
+Random seed: 42 (keras.utils.set_random_seed)
+
+Data: 54,000 train / 6,000 validation / 10,000 test, pixels scaled to [0, 1].
+Architecture: 784 -> 256 -> 128 -> K(linear) -> 128 -> 256 -> 784(sigmoid), binary cross-entropy.
+
+The judge: an independent classifier scoring whether a reconstruction
+still looks like its digit. On clean pixels it reaches 0.9822 (val) and 0.9793 (test);
+that ceiling is what reconstructions are measured against.
+
+Coding-size search (all selection on the validation split):
+   K  compression   val BCE  judge acc (val)  epochs
+----------------------------------------------------
+  32         24:1    0.0784           0.9817      40
+  16         49:1    0.0910           0.9697      40
+   8         98:1    0.1110           0.9525      40
+   4        196:1    0.1419           0.9113      40  <- winner
+   2        392:1    0.1715           0.7672      40
+
+Recognizability threshold: judge accuracy >= 0.90 on the
+reconstructed validation digits. Reconstruction loss falls monotonically
+as K grows, but loss does not say 'recognizable'; the judge does, and it
+is the judge that picks the floor.
+
+Smallest number of codings that stays recognizable: 4.
+  Compression: 196:1 (784 pixels -> 4 numbers).
+  Held-out validation judge accuracy: 0.9113.
+  Single test-set evaluation for this size:
+    reconstruction BCE 0.1430, judge accuracy 0.8951
+    (vs 0.9793 on the original test digits, a drop of 0.0842).
+
+See mnist_reconstructions.png for the five random test digits at every K,
+and mnist_loss_curves.png for the loss trends. The next size down, K=2, is
+where the judge falls through the threshold; that boundary is what the eye
+alone reported inconsistently before.
