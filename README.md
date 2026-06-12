@@ -56,17 +56,10 @@ A collection of natural language processing implementations in Python, progressi
 - `projects/4/part-1/`, `projects/4/part-2/`, `projects/4/part-3/` - Experiments (vocabulary transfer, n-gram sentiment, word embeddings)
 
 ### Project 5: Character Embeddings & Autoencoders
-**Topics:** Character-level embeddings, sequence modeling, autoencoders
+**Topics:** Character-embedding transfer and OOV behavior, MNIST undercomplete autoencoder with a classifier-judged bottleneck, IMDb bag-of-words autoencoder scored against a frequency baseline
 **Key Files:**
-- `projects/5/problem1/` - Character embedding solutions
-- `projects/5/problem2/` - Text generation with RNNs
-- `projects/5/problem3/` - Autoencoder for IMDb reviews
-- `projects/5/PROBLEM3_SOLUTION_MEMORY.md` - Technical documentation
-
-**Highlights:**
-- Character-level embedding with unknown token handling
-- LSTM-based character prediction models
-- Autoencoder architecture for text representation
+- `projects/5/README.md` - Project write-up with results
+- `projects/5/part-1/`, `projects/5/part-2/`, `projects/5/part-3/` - Experiments (character embeddings, MNIST autoencoder, IMDb autoencoder)
 
 ### Project 6: Topic Modeling
 **Topics:** LDA topic modeling, deep neural network architectures
