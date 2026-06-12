@@ -1,0 +1,65 @@
+PART 1 - CHARACTER EMBEDDINGS AND TRANSFER TO A NEW TEXT
+============================================================
+Generated: 2026-06-12 17:00:14
+Versions: keras 3.14.1, scikit-learn 1.9.0
+Random seed: 42 (keras.utils.set_random_seed)
+
+Large text: large.txt (5200 chars). Small text: small.txt (262 chars).
+
+(a) Preprocessing: both texts lowercased; the character vocabulary is
+built from the large text only, with <UNK> reserved at index 0.
+  Vocabulary size: 30 (29 distinct characters + <UNK>).
+First 36 characters of the small text, lowercased, as char -> int:
+  d:8  i:13  v:26  e:9  space:2  l:16
+  o:19  g:11  space:2  #:0*UNK*  4:0*UNK*  7:0*UNK*
+  space:2  @:0*UNK*  space:2  s:23  t:24  a:5
+  t:24  i:13  o:19  n:18  space:2  a:5
+  l:16  p:20  h:12  a:5  -:0*UNK*  3:0*UNK*
+  ::0*UNK*  \n:1  d:8  e:9  p:20  t:24
+
+(b) A next-character model (Embedding -> Flatten -> Dense -> softmax)
+trained on 5,192 sliding windows of 8 characters.
+  Final validation accuracy: 0.356 vs majority baseline 0.182 (always predicting 'space').
+  Trained embedding matrix: (30, 24) (one 24-d row per vocabulary character).
+  Applying it to the small text gives an array of shape (262, 24)
+  (one row per character). First two rows, 'd' and 'i':
+    [0.037 0.864 0.836 0.176 0.087 0.162] ...
+    [-0.144 -0.595  0.248  0.704  0.256 -0.567] ...
+  Example learned vector, 'e' (index 9), first 6 dims:
+    [ 0.145 -0.435  0.594 -0.653 -0.212 -0.385] ...
+
+(c) What transfers from the large text to the small text's vectors.
+  Two things, and both are measured here rather than asserted:
+  1. The shared character vocabulary. Every column the small text can
+     use was defined by the large text; the small text adds none of
+     its own. The vectors are read straight from the trained matrix.
+  2. The embedding weights, i.e. the geometry. The model places
+     characters that share predictive context near each other.
+     Measured cosine nearest neighbors:
+  'a' -> 'u' (+0.33), 'j' (+0.31), 'x' (+0.22), 'i' (+0.22)
+  'e' -> '.' (+0.20), 'y' (+0.20), 'd' (+0.14), 'w' (+0.11)
+  't' -> 'w' (+0.25), 'g' (+0.19), ',' (+0.10), 's' (+0.08)
+  'n' -> '.' (+0.45), 'w' (+0.26), 'y' (+0.21), 'l' (+0.19)
+  'space' -> '\n' (+0.28), 'x' (+0.20), 'u' (+0.14), 'i' (+0.14)
+  '.' -> 'n' (+0.45), ',' (+0.28), 'k' (+0.26), 'd' (+0.23)
+  ',' -> 'y' (+0.31), '.' (+0.28), 'd' (+0.23), 'k' (+0.23)
+     Within-vowel mean cosine +0.18 vs vowel-to-consonant -0.05; the gap of +0.23 is the
+     sense in which 'a kind of character' forms a group. See
+     embedding_pca.png for the full layout colored by class.
+  Significance: a shared character in the small text inherits a vector
+  shaped by every occurrence in the large text, for free and without
+  retraining. That is the transfer; it is only as meaningful as the
+  model is non-trivial, which the 0.356 vs 0.182 gap establishes.
+
+(d) New characters in the small text and Keras OOV behavior.
+  20 distinct characters appear in the small text but not
+  the large text: ! # $ % & ( ) - 0 1 2 3 4 6 7 8 9 : @ ~
+  They account for 32 of 262 small-text characters (12.2%), all mapped to <UNK> (index 0).
+  Keras default, probed against the live layer in this run:
+    keras.layers.Embedding has no OOV slot; an out-of-range index raises InvalidArgumentError
+    (index one past the vocabulary). So nothing about <UNK> is a Keras
+    Embedding default; reserving index 0 is our own design, and without
+    it these characters would crash the lookup, not fall back quietly.
+  For contrast, keras.layers.TextVectorization does reserve slots by
+  default: index 0 for padding and index 1 for '[UNK]'. Different layer,
+  different contract; the embedding lookup itself forgives nothing.

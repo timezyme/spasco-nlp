@@ -1,0 +1,5 @@
+dive log #47 @ station alpha-3:
+depth 3,860 m, water temp 1.8 c, oxygen 92% of surface.
+budget for the survey was $1.2m, spent ~$840k so far.
+contact: rov-team@example.org (ping me re: the vent maps!).
+note the glow & the slow rain of marine snow at the bottom.
