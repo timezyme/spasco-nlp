@@ -1,0 +1,67 @@
+PART 3 - WORD2VEC ON SHAKESPEARE'S COMPLETE WORKS
+============================================================
+Generated: 2026-06-11 21:31:34
+Versions: gensim 4.4.0, nltk 3.9.4
+Random seed: 42 (workers=1, PYTHONHASHSEED=0)
+
+Corpus: shakespeare-complete-works.html, text via BeautifulSoup get_text().
+Gutenberg license boilerplate removed (914 chars of header, 18484 of footer).
+(a, b) 77,523 sentences, 957,851 lowercased alphabetic tokens
+(the original version trained on 20,000 sentences with the license text left in).
+Both models: vector_size=100, window=5, min_count=5, epochs=20;
+vocabulary 8,980 words.
+
+Model selection by analogy probes (rank of the first plausible
+answer; lower is better):
+Model         Tokens/s  boy+queen-king  king-man+woman
+------------------------------------------------------
+CBOW         1,641,979          rank 9          rank 1
+Skip-gram      664,968         rank 64          rank 1
+
+Winner: CBOW, by the probe ranks above; all results below
+are the winner's. Both models nail the king - man + woman direction;
+they separate on the harder boy probe. The conventional heuristic
+says skip-gram suits small corpora and rare words, but measured on
+this corpus CBOW's context averaging gave the steadier analogy
+geometry. Two probes are a selection criterion, not a benchmark;
+the point is the choice is measured, not inherited.
+
+(c) Vector representations:
+  king     shape (100,), L2 norm 14.229, first 8 dims [+0.396, -1.910, +0.004, -0.721, +0.411, +0.906, +1.134, +2.076, ...]
+  queen    shape (100,), L2 norm 12.493, first 8 dims [+0.393, -0.716, -1.479, +0.078, +0.280, +1.011, +1.004, -1.040, ...]
+  love     shape (100,), L2 norm 14.140, first 8 dims [+0.203, -1.556, +0.431, +1.154, +1.029, -4.210, +1.954, -0.232, ...]
+  death    shape (100,), L2 norm 12.594, first 8 dims [+0.424, -2.770, -0.057, +0.084, -0.596, -3.465, -1.481, -1.161, ...]
+
+(d) Five nearest neighbors (cosine similarity):
+  king     -> prince (0.723), duke (0.604), queen (0.581), dauphin (0.574), talbot (0.544)
+  queen    -> princess (0.748), margaret (0.624), daughter (0.620), king (0.581), lady (0.573)
+  love     -> hate (0.587), duty (0.521), kindness (0.518), respect (0.514), passion (0.502)
+  death    -> life (0.586), shame (0.573), revenge (0.527), curse (0.513), murder (0.512)
+
+The neighbors are coherent: king sits with rank/title words, queen
+with court roles, love with affection terms, death with mortality
+terms. Cosine similarity ranks words by the angle between vectors,
+so 'most similar' means 'most collinear', exactly the spec's
+definition.
+
+(e) Analogy: king is to queen as boy is to ???
+Computed as the vector boy + queen - king; top 10 most similar
+actual words:
+  1. nurse        (cosine 0.5699)
+  2. maid         (cosine 0.5142)
+  3. wench        (cosine 0.5120)
+  4. child        (cosine 0.4937)
+  5. gentlewoman  (cosine 0.4928)
+  6. creature     (cosine 0.4916)
+  7. picture      (cosine 0.4897)
+  8. babe         (cosine 0.4846)
+  9. girl         (cosine 0.4773)
+  10. aunt         (cosine 0.4731)
+
+Sanity probe king - man + woman ranks queen at 1, so the gender
+direction exists in the space. The boy analogy is harder for a
+Shakespeare-sized corpus (under a million training tokens against
+the billions behind published embeddings), and the honest answer is
+the ranked list above rather than a single confident word.
+
+Total runtime: 43s (CBOW 12s, Skip-gram 29s)

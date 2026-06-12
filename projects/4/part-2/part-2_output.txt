@@ -1,0 +1,45 @@
+PART 2 - IMDB SENTIMENT WITH TF-IDF N-GRAMS
+============================================================
+Generated: 2026-06-11 21:31:23
+Versions: keras 3.14.1, tensorflow 2.21.0, scikit-learn 1.9.0
+Random seed: 42
+
+Data: imdb.load_data(num_words=10000) unchanged per spec; reviews decoded
+back to text, pad/start/oov markers and the HTML token "br" removed.
+Representation: sublinear TF-IDF, max_features=40,000, min_df=2, max_df=0.9,
+L2-normalized rows, sparse end to end (Keras reads CSR batches
+through a PyDataset). All selection on a 22.5k/2.5k stratified
+validation split; every candidate then refits on the full 25k train
+and touches the test set exactly once.
+
+N-gram selection (validation accuracy, C-tuned logistic regression):
+n-grams     Features  Best C  Val acc
+-------------------------------------
+(1,1)          9,765       4   0.8932
+(1,2)         40,000       4   0.9068
+(1,3)         40,000       4   0.9092  <- chosen
+
+Model comparison on the (1,3) representation:
+Model                             Best ep  Val acc  Test acc
+------------------------------------------------------------
+LogisticRegression (C=4)                -   0.9092    0.9046
+Keras logistic (Dense 1)               20   0.8916    0.8840
+Keras MLP 512 (drop 0.45, L2)          19   0.9076    0.9042
+
+Winner on validation: LogisticRegression (C=4)
+TEST ACCURACY: 0.9046 (>= 0.90 goal met)
+
+Why this n-gram choice works: the big step is unigrams to bigrams
+(+1.36 points of validation accuracy), because negation and intensity
+are two-word phenomena (not good, very best) that no bag of single
+words can encode. Extending to trigrams adds +0.24 points at the same
+40k budget: min_df=2 already drops the one-off trigrams, so the
+surviving ones (mostly negated bigrams with a pivot word) are cheap
+to include. The original version of this project concluded trigrams
+hurt; with the br token removed and a convex, fully optimized
+classifier doing the comparison, the measured ordering reverses,
+which is why representation choices get re-tested here instead of
+inherited.
+
+Top mean-TF-IDF training features (after cleanup): is, it, in, that, movie, was, as, film, for, but
+Total runtime: 141s
