@@ -1,0 +1,51 @@
+PART 1 - NLTK VS SPACY PREPROCESSING COMPARISON
+============================================================
+Generated: 2026-06-11 21:03:58
+Versions: nltk 3.9.4, spacy 3.8.14 (en_core_web_sm)
+Deterministic run: no randomness involved
+
+Document: song.txt (1962 characters of song lyrics)
+
+Measure                        NLTK    spaCy
+--------------------------------------------
+Sentences detected                1       20
+Word tokens (raw)               461      533
+Alphabetic tokens               390      390
+Unique lemmas                   129      127
+Stop-word tokens removed        213      219
+Named entities                    -       17
+
+Sentence segmentation: the lyrics contain almost no terminal
+punctuation, so NLTK's punkt finds 1 sentence(s); spaCy's parser uses
+linebreaks and syntax and finds 20.
+
+Stems and lemmas for selected words:
+Word         Porter       Snowball     NLTK lemma   spaCy lemma 
+----------------------------------------------------------------
+like         like         like         like         like        
+caught       caught       caught       caught       catch       
+making       make         make         make         make        
+escape       escap        escap        escape       escape      
+lady         ladi         ladi         lady         lady        
+was          wa           was          be           be          
+sleeping     sleep        sleep        sleep        sleep       
+
+Lemma agreement on the 135 shared alphabetic words: 130 identical (96%).
+Disagreements are mostly irregular forms where spaCy's tagger
+picks the verb reading (caught -> catch, was -> be).
+
+NLTK top content words       spaCy top content lemmas    
+--------------------------------------------------------
+like (9)                     like (9)                    
+escape (6)                   escape (6)                  
+piña (6)                     piña (6)                    
+lady (5)                     colada (6)                  
+chorus (5)                   lady (5)                    
+coladas (5)                  chorus (5)                  
+gettin (5)                   gettin (5)                  
+caught (5)                   catch (5)                   
+rain (5)                     rain (5)                    
+love (5)                     love (5)                    
+
+Named entities (spaCy only, first 12 of 17):
+  Escape (The Piña Colada Song [WORK_OF_ART], Rupert Holmes [PERSON], 1 [CARDINAL], half [CARDINAL], midnight [TIME], 2 [CARDINAL], half [CARDINAL], tomorrow [DATE], noon [TIME], O'Malley [ORG], 3 [CARDINAL], midnight [TIME]

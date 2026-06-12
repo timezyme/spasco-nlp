@@ -1,0 +1,69 @@
+PART 2 - BAG OF WORDS WITH AN OOV TOKEN
+============================================================
+Generated: 2026-06-11 21:03:06
+Versions: nltk 3.9.4
+Deterministic run: no randomness involved
+
+(a) Tokenization and lemmatization (POS-aware, markdown stripped):
+  Large text: 2113 tokens, 619 unique lemmas
+  Small text: 258 tokens, 164 unique lemmas
+
+First 50 processed tokens of the small text, ten per row:
+  abstract the grow demand for energy-efficient high-performance ai system have
+  lead to increase attention on alternative compute platform e.g. photonic
+  neuromorphic due to their potential to accelerate learning and inference
+  however integrate such physical component into deep learning pipeline remain
+  challenge a physical device often offer limited expressiveness and their
+
+First 30 unique lemmas of the small text:
+  's, a, abstract, accelerate, accuracy, achieve
+  across, after, ai, algorithm, all, alternative
+  and, approach, approximation, architecture, attention, audio
+  avoid, backpropagation, baseline, be, behave, black
+  box, bridge, challenge, cifar-10, classification, combine
+
+(b) Vocabulary from the large text and BoW for the small text:
+  Vocabulary size: 620 entries (including <OOV> at index 0)
+  BoW dictionary for the small text: 58 distinct indices, frequencies sum to 258 (= its token count)
+
+ Index  Token                  Frequency
+----------------------------------------
+     0  <OOV>                        145
+   540  the                           11
+   345  model                          7
+    66  and                            6
+   224  for                            4
+   302  learning                       4
+   368  of                             4
+   370  on                             4
+   550  this                           4
+   299  layer                          3
+   554  to                             3
+   562  training                       3
+   597  with                           3
+    36  a                              2
+    48  across                         2
+    54  ai                             2
+   280  into                           2
+   340  method                         2
+   377  our                            2
+   531  system                         2
+... plus 33 single-occurrence entries, first 10:
+     1  's                             1
+    45  abstract                       1
+    47  accuracy                       1
+    53  after                          1
+    58  algorithm                      1
+    59  all                            1
+    60  alternative                    1
+    73  architecture                   1
+    78  attention                      1
+    83  be                             1
+
+(c) New words:
+  The dictionary shows the new-word volume directly: index 0 carries 145 occurrences
+  across 107 distinct words absent from the large-text vocabulary.
+  The key for any new word is 0 (the reserved <OOV> slot); individual new words are
+  indistinguishable inside the BoW, which is the cost of a closed vocabulary.
+  Vocabulary coverage of the small text: 34.8% of unique lemmas; sample OOV words:
+  accelerate, achieve, approach, approximation, audio, avoid, backpropagation, baseline, behave, black
