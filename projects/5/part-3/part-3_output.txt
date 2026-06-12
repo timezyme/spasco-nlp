@@ -1,0 +1,64 @@
+PART 3 - UNDERCOMPLETE AUTOENCODER ON IMDb REVIEWS
+============================================================
+Generated: 2026-06-12 17:20:20
+Versions: keras 3.14.1, scikit-learn 1.9.0
+Random seed: 42 (keras.utils.set_random_seed)
+
+Data: imdb.load_data(num_words=10000), first 200 words per review, as bag-of-words.
+Indices 0/1/2 (pad/start/oov) are excluded from the vocabulary, so a 'word'
+is an actual word. Architecture: 512 -> 256 -> K(linear) -> 256 -> 512 -> 10000(sigmoid), BCE.
+Split: 20,000 train / 5,000 validation for selection; the
+winner refits on the full 25,000 and is tested once.
+
+Why not report accuracy: these vectors are ~99% zeros, so predicting all
+zeros already scores ~0.99. The honest question is which actual words the
+code recovers, measured as top-m word recall against two baselines.
+
+Coding-size search (validation split). recall and content are top-m word
+recall over all words and over content words only (50 commonest dropped);
+sentiment is a linear probe predicting review sentiment from the K codes:
+   K   val BCE   recall   content  sentiment  epochs
+----------------------------------------------------
+  64    0.0366    0.380     0.195      0.661       7
+  32    0.0365    0.379     0.195      0.703       9
+  16    0.0366    0.380     0.196      0.691      10
+   8    0.0364    0.382     0.198      0.707      11
+   4    0.0360    0.386     0.204      0.716      17  <- winner
+
+Global-frequency baseline (same prediction for every review):
+  recall 0.379, content 0.194. A code beats this
+  only by carrying review-specific information; the content column is where
+  the corpus prior stops helping and the latent code has to do the work.
+
+Selection: smallest K within 90% of the best validation content recall (0.204).
+Smallest number of codings that holds the content: 4.
+
+Single test-set evaluation for K=4 (refit on full train):
+  top-m recall   0.391  (baseline 0.380, gain +0.011)
+  content recall 0.210  (baseline 0.194, gain +0.016)
+  sentiment from 4 codes: 0.776 (chance 0.500), evidence
+  the compact code keeps the axis the reviews are actually about. See
+  imdb_latent_sentiment.png.
+
+Five random test reviews, original vs reconstructed (top words by
+probability; markers excluded so these are real words now):
+  Review 1 (positive):
+    original words (first 18):  the and a of to is in it i this that for with movie film on not you
+    reconstructed (top 18):     the and of a to is in this it that but with br for as are on i
+  Review 2 (negative):
+    original words (first 18):  the and a of to is br in it this that movie but film on his be all
+    reconstructed (top 18):     the a of and to is in this it that but with for br i are as on
+  Review 3 (negative):
+    original words (first 18):  the and a of to is br in it i this that as for with movie but film
+    reconstructed (top 18):     the i a this and to of it is in movie that was but you for on have
+  Review 4 (positive):
+    original words (first 18):  the and a of to is br in it i this that was as for with movie on
+    reconstructed (top 18):     the this i and a it to of movie is in that was but have you for not
+  Review 5 (positive):
+    original words (first 18):  the and a of to is br in it this that was as for with but film are
+    reconstructed (top 18):     the and a of to in is this as that with it film br but for his an
+
+Smallest codings answer: 4. It is the smallest size that stays within reach of the best
+content recall while still separating sentiment; smaller codes keep the
+common words but lose the distinctive ones, which is exactly what the
+content metric, not raw loss, exposes.
